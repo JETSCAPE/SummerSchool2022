@@ -92,23 +92,23 @@ Create and start the docker container that contains all of the JETSCAPE pre-reqs
 
 **macOS:**
 ```bash
-docker run -it -v ~/jetscape-docker:/home/jetscape-user --name myJetscape -p 8888:8888 jetscape/base:v1.4
+docker run -it -v ~/jetscape-docker:/home/jetscape-user --name myJetscape -p 8888:8888 jetscape/base:v1.6
 ```
 
 **linux:**
 ```bash
-docker run -it -v ~/jetscape-docker:/home/jetscape-user --name myJetscape -p 8888:8888 --user $(id -u):$(id -g) jetscape/base:v1.4
+docker run -it -v ~/jetscape-docker:/home/jetscape-user --name myJetscape -p 8888:8888 --user $(id -u):$(id -g) jetscape/base:v1.6
 ```
 
 **windows:**
 For example open a Windows command window using the 'cmd' command then:
 ```bash
-docker run -it -v <fullpath>/jetscape-docker:/home/jetscape-user --name myJetscape -p 8888:8888 jetscape/base:v1.4
+docker run -it -v <fullpath>/jetscape-docker:/home/jetscape-user --name myJetscape -p 8888:8888 jetscape/base:v1.6
 ```
 where `<fullpath>` would be c:\users\...\documents\ or wherever the `jetscape-docker` folder was placed.
 
 This is what the `docker run` command does:
-- `docker run` creates and starts a new docker container from a pre-defined image jetscape/base:v1.4, which will be downloaded if necessary.
+- `docker run` creates and starts a new docker container from a pre-defined image jetscape/base:v1.6, which will be downloaded if necessary.
 - `-it` runs the container with an interactive shell.
 - `-v` mounts a shared folder between your machine (at ~/jetscape-docker) and the container (at /home/jetscape-user), through which you can transfer files to and from the container. You can edit the location of the folder on your machine as you like.
 - `--name` (optional) sets a name for your container, for convenience. Edit it as you like.
