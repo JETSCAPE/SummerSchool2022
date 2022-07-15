@@ -1,0 +1,87 @@
+<jetscape>
+
+  <nEvents>1</nEvents>
+  <setReuseHydro>true</setReuseHydro>
+  <nReuseHydro>1</nReuseHydro>
+
+  <JetScapeWriterAscii>on</JetScapeWriterAscii>
+
+  <outputFilename>test_out</outputFilename>
+  <JetScapeWriterAscii> on </JetScapeWriterAscii>
+  <JetScapeWriterFinalStatePartonsAscii> on </JetScapeWriterFinalStatePartonsAscii>
+  <JetScapeWriterFinalStateHadronsAscii> on </JetScapeWriterFinalStateHadronsAscii>
+  <nEvents_printout>1</nEvents_printout>
+
+  <Random>
+    <seed>2</seed>
+  </Random>
+  <!-- Inital State Module  -->
+  <IS>
+    <initial_profile_path>../../SummerSchool2022/Jul29_Jets/test_hydro_profile</initial_profile_path>
+  </IS>
+
+  <!-- Hard Process -->
+  <Hard>
+    <PGun>
+      <name>PGun</name>
+      <pT>150</pT>
+    </PGun>
+  </Hard>
+
+  <!--Preequilibrium Dynamics Module -->
+  <Preequilibrium>
+    <NullPreDynamics></NullPreDynamics>
+  </Preequilibrium>
+
+  <!-- Hydro  Module  -->
+  <Hydro>
+    <hydro_from_file>
+      <boost_invariant_>1</boost_invariant_>
+      <read_in_multiple_hydro>1</read_in_multiple_hydro>
+      <hydro_files_folder>../../SummerSchool2022/Jul29_Jets/test_hydro_profile</hydro_files_folder>
+    </hydro_from_file>
+  </Hydro>
+
+  <!--Eloss Modules -->
+  <Eloss>
+
+    <deltaT>0.1</deltaT>
+    <formTime>-0.1</formTime>
+    <maxT>50</maxT>
+    <tStart>0.6</tStart>    <!-- Start time of jet quenching, proper time, fm/c   -->
+    <mutex>ON</mutex>
+
+    <Matter>
+      <name>Matter</name>
+      <useHybridHad>0</useHybridHad>
+      <matter_on>1</matter_on>
+      <Q0>2.0</Q0>
+      <vir_factor>0.25</vir_factor>
+      <in_vac>0</in_vac>
+      <recoil_on>1</recoil_on>
+      <broadening_on>0</broadening_on>
+      <brick_med>0</brick_med>      <!-- Set brick_med to 1 while using Brick Hydro module-->
+      <T0>0.16</T0>
+      <hydro_Tc>0.16</hydro_Tc>
+      <qhat0>-2.0</qhat0>      <!-- If Type=0, 1, 5,6,7 set qhat0 as negative since alphas will be used-->
+      <alphas>0.25</alphas>
+    </Matter>
+
+    <Lbt>
+      <name>Lbt</name>
+      <Q0>2.0</Q0>
+      <in_vac>0</in_vac>
+      <only_leading>0</only_leading>
+      <hydro_Tc>0.16</hydro_Tc>
+      <alphas>0.25</alphas>
+    </Lbt>
+  </Eloss>
+
+  <!-- Jet Hadronization Module -->
+  <JetHadronization>
+    <name>colorless</name>
+    <take_recoil>1</take_recoil>
+    <eCMforHadronization>2510</eCMforHadronization>
+  </JetHadronization>
+
+</jetscape>
