@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+
+<jetscape>
+    <!-- General settings -->
+    <nEvents> 1 </nEvents>
+
+    <Random>
+        <seed>23</seed>
+    </Random>
+
+    <!-- Inital State Module  -->
+    <IS>
+        <!-- x range [-grid_max_x, grid_max_x] -->
+        <!-- y range [-grid_max_y, grid_max_y]-->
+        <!-- longitudinal range [-grid_max_z, grid_max_z]-->
+        <!-- in units of [fm] -->
+        <grid_max_x> 12 </grid_max_x>
+        <grid_max_y> 12 </grid_max_y>
+        <grid_max_z> 0.0 </grid_max_z>
+        <grid_step_x> 0.2 </grid_step_x>
+        <grid_step_y> 0.2 </grid_step_y>
+        <grid_step_z> 0.2 </grid_step_z>
+
+        <!-- Initial condition -->
+        <Trento>
+            <PhysicsInputs  projectile='Pb'
+                    target='Pb'
+                    sqrts='5020'
+                    cross-section='6.7'
+                    normalization='18.4'>
+            </PhysicsInputs>
+            <CutInputs  centrality-low='20'
+                  centrality-high='30'>
+            </CutInputs>
+        </Trento>
+    </IS>
+
+    <!--Preequilibrium Dynamics Module -->
+    <Preequilibrium>
+        <NullPreDynamics> </NullPreDynamics>
+    </Preequilibrium>
+
+    <!-- Hydro  Module  -->
+    <Hydro>
+        <MUSIC>
+            <name>MUSIC</name>
+            <T_dependent_Shear_to_S_ratio>3</T_dependent_Shear_to_S_ratio>
+            <eta_over_s_T_kink_in_GeV>0.16</eta_over_s_T_kink_in_GeV>
+            <eta_over_s_low_T_slope_in_GeV>0.1</eta_over_s_low_T_slope_in_GeV>
+            <eta_over_s_high_T_slope_in_GeV>0.2</eta_over_s_high_T_slope_in_GeV>
+            <eta_over_s_at_kink>0.08</eta_over_s_at_kink>
+            <temperature_dependent_bulk_viscosity>3</temperature_dependent_bulk_viscosity>
+            <zeta_over_s_max>0.1</zeta_over_s_max>
+            <zeta_over_s_T_peak_in_GeV>0.16</zeta_over_s_T_peak_in_GeV>
+            <zeta_over_s_width_in_GeV>0.01</zeta_over_s_width_in_GeV>
+            <zeta_over_s_lambda_asymm>0.0</zeta_over_s_lambda_asymm>
+            <Include_second_order_terms>1</Include_second_order_terms>
+            <freezeout_temperature>0.150</freezeout_temperature>
+        </MUSIC>
+    </Hydro>
+
+</jetscape>

@@ -17,12 +17,7 @@
         <!-- y range [-grid_max_y, grid_max_y]-->
         <!-- longitudinal range [-grid_max_z, grid_max_z]-->
         <!-- in units of [fm] -->
-        <grid_max_x> 10 </grid_max_x>
-        <grid_max_y> 10 </grid_max_y>
         <grid_max_z> 0.0 </grid_max_z>
-        <grid_step_x> 0.2 </grid_step_x>
-        <grid_step_y> 0.2 </grid_step_y>
-        <grid_step_z> 0.2 </grid_step_z>
 
         <!-- Initial condition -->
         <Trento>
@@ -35,11 +30,6 @@
             <CutInputs  centrality-low='0'
                   centrality-high='5'>
             </CutInputs>
-            <TransInputs  reduced-thickness='0.0'
-            fluctuation="1.2"
-            nucleon-width="0.96"
-            nucleon-min-dist="1.2">
-            </TransInputs>
         </Trento>
     </IS>
 
@@ -52,17 +42,9 @@
     <Hydro>
         <MUSIC>
             <name>MUSIC</name>
-            <T_dependent_Shear_to_S_ratio>2</T_dependent_Shear_to_S_ratio>
-            <eta_over_s_min>0.08</eta_over_s_min>
-            <eta_over_s_slope>1.1</eta_over_s_slope>
-            <eta_over_s_curv>-0.5</eta_over_s_curv>
-            <temperature_dependent_bulk_viscosity>2</temperature_dependent_bulk_viscosity>
-            <bulk_viscosity_normalisation>0.05</bulk_viscosity_normalisation>
-            <bulk_viscosity_peak_in_GeV>0.180</bulk_viscosity_peak_in_GeV>
-            <bulk_viscosity_width_in_GeV>0.02</bulk_viscosity_width_in_GeV>
-            <Include_second_order_terms>1</Include_second_order_terms>
-	    <use_eps_for_freeze_out>1<use_eps_for_freeze_out>
-            <freezeout_temperature>0.151</freezeout_temperature>
+            <shear_viscosity_eta_over_s>0.15</shear_viscosity_eta_over_s>
+            <temperature_dependent_bulk_viscosity>1</temperature_dependent_bulk_viscosity>
+            <freezeout_temperature>0.150</freezeout_temperature>
         </MUSIC>
     </Hydro>
 
