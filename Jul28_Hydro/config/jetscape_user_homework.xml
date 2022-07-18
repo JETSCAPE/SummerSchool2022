@@ -29,9 +29,14 @@
                     cross-section='6.7'
                     normalization='18.4'>
             </PhysicsInputs>
-            <CutInputs  centrality-low='20'
-                  centrality-high='30'>
+            <CutInputs  centrality-low='30'
+                  centrality-high='40'>
             </CutInputs>
+            <TransInputs  reduced-thickness='0.0'
+            fluctuation="1.2"
+            nucleon-width="0.75"
+            nucleon-min-dist="1.2">
+             </TransInputs>
         </Trento>
     </IS>
 

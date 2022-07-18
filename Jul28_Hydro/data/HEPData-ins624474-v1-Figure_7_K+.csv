@@ -1,0 +1,24 @@
+#: table_doi: 10.17182/hepdata.106657.v1/t3
+#: name: Figure 7 K+
+#: description: Centrality dependence of the $p_{T}$ distribution for $K^{+}$ in Au+Au collisions at $\sqrt{s_{NN}}$ = 200 GeV. Errors are statistical only.
+#: data_file: fig1-3.yaml
+#: keyword reactions: AU AU --> CHARGED X
+#: keyword cmenergies: 200.0
+#: centrality         0-5%
+#$p_T$ (GeV/c)   $p_T$ (GeV/c) LOW   $p_T$ (GeV/c) HIGH   $\frac{1}{N_{Event}2\pi p_{T}}\frac{d^{2}N}{dp_{T}dy}$   stat_err +   stat_err -
+0.45   0.4   0.5   18.3   0.39   -0.39
+0.55   0.5   0.6   14.8   0.29   -0.29
+0.6499999999999999   0.6   0.7   10.5   0.2   -0.2
+0.75   0.7   0.8   7.97   0.15   -0.15
+0.8500000000000001   0.8   0.9   5.96   0.12   -0.12
+0.95   0.9   1   4.19   0.085   -0.085
+1.05   1   1.1   3.2   0.068   -0.068
+1.15   1.1   1.2   2.31   0.052   -0.052
+1.25   1.2   1.3   1.64   0.039   -0.039
+1.35   1.3   1.4   1.13   0.029   -0.029
+1.45   1.4   1.5   0.852   0.024   -0.024
+1.55   1.5   1.6   0.603   0.018   -0.018
+1.65   1.6   1.7   0.443   0.015   -0.015
+1.75   1.7   1.8   0.361   0.013   -0.013
+1.85   1.8   1.9   0.264   0.01   -0.01
+1.95   1.9   2   0.212   0.0091   -0.0091

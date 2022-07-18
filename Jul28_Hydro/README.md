@@ -1,11 +1,5 @@
 # JSSS2022 Hydro Session
 
-
-
-
-
-[TOC]
-
 # Table of contents
 - **Part I. Introduction**
   - i. Background
@@ -22,26 +16,26 @@
   - Exercise 1. Run JETSCAPE and compare to data
   - Exercise 2. Plot results from MUSIC and understand hydro evolution
   - Exercise 3. Plot flow velocity evolution and see effects from shear viscosity
-  - Exercise 4. Plot particle mean $p_T$ and see effects from bulk viscosity
+  - Exercise 4. Plot particles mean $p_T$ and see effects from bulk viscosity
 
 - **Homework**
   - Temperature dependent $(\eta/s)(T)$ and $(\zeta/s)(T)$
 
 # Part I. Introduction 
 
-> Note: Please join the Slack Channel: [# jul21-jul22-hydro](https://jetscapeschool2022.slack.com/archives/C03FVRUR51S) and post your questions there.
+> Note: Please join the Slack Channel: [# jul27-jul28-hydro](https://jetscapeschool2022.slack.com/archives/C03Q6PBQ1DX) and post your questions there.
 
 > The instructions below are adapted from the materials of the Hydro Sessions at [Summer School 2021](https://github.com/JETSCAPE/SummerSchool2021/tree/master/Jul21_Hydro/hydro_session) and [Summer School 2020](https://github.com/JETSCAPE/SummerSchool2020/tree/master/hydro_session) (Lecturer: Chun Shen).
 
 ## i. Background
 
-The [JETSCAPE](http://jetscape.org/) simulation framework is an overarching computational envelope for developing complete event generators for heavy-ion collisions. It allows for modular incorporation of a wide variety of existing and future software that simulates different aspects of a heavy-ion collision. We will use the following modules within the JETSCAPE framework for the Hydro Session today
+The [JETSCAPE](http://jetscape.org/) simulation framework is an overarching computational envelope for developing complete event generators for heavy-ion collisions. It allows for modular incorporation of a wide variety of existing and future software that simulates different aspects of a heavy-ion collision. We will use the following modules within the JETSCAPE framework for the Hydro Session today and tomorrow:
 
 ```c++
-'Trento' (initial condition) + 'MUSIC' (hydro) + 'iSS' (particlization)
+'Trento' (initial condition) + 'MUSIC' (hydrodynamics) + 'iSS' (particlization)
 ```
 
-We employ the `Trento` model to generate event-by-event initial energy density profile. The energy density profile is then passed to the hydrodynamic module `MUSIC`, which will evolve the collision system starting as a hot QGP to a hadron gas. Optionally, pre-equilibrium dynamics modeled by `free-streaming` can be included between Trento and MUSIC. In the dilute hadronic phase, fluid cells will convert to individual hadrons. This process is denoted as the particlization, for which we use `iSS`. (The produced hadrons can be further fed to a hadronic transport model `SMASH`, which accounts for scattering processes among hadrons and decays of excited resonance states. This will be discussed in the Transport Session by Jan.)
+We employ the `Trento` model to generate event-by-event initial energy density profile. The energy density profile is then passed to the hydrodynamic module `MUSIC`, which will evolve the collision system starting as a hot QGP to a hadron gas. Optionally, pre-equilibrium dynamics modeled by `free-streaming` can be included between Trento and MUSIC. In the dilute hadronic phase, fluid cells will convert to individual hadrons. This process is denoted as the particlization, for which we use `iSS` particle sampler. (The produced hadrons can be further fed to a hadronic transport model `SMASH`, which accounts for scattering processes among hadrons and decays of excited resonance states. This will be discussed in the Transport Session by Jan following the Hydro Session.)
 
 ## ii. Goals
 
@@ -49,7 +43,7 @@ We employ the `Trento` model to generate event-by-event initial energy density p
 
 - With a realistic hydrodynamic module, participants will be able to output hydrodynamic evolution profile and analyze the evolution of temperature and the development of flow velocity with various settings;
 
-- Participants will simulate event-by-event bulk dynamics for Au+Au @ 200 GeV and Pb+Pb @ 5020 GeV with a realistic setup, and understand the viscous effects on a few hydrodynamic quantities/observables.
+- Participants will simulate event-by-event bulk dynamics for Au+Au @ 200 GeV and Pb+Pb @ 5020 GeV with some realistic settings, and understand the viscous effects on a few hydrodynamic quantities/observables.
 
 # Part II. Build the JETSCAPE framework
 
@@ -69,9 +63,11 @@ We employ the `Trento` model to generate event-by-event initial energy density p
 
 ## i. Prerequisite: Download necessary code packages
 
-Following the instructions on the preparation (https://github.com/JETSCAPE/SummerSchool2022), you should have already downloaded all the code packages needed. **If you haven't downloaded the packages yet**, you can follow the steps below to do so (Below is the scripts I ran in my `Terminal` to get ready).
+Following the instructions on the preparation (https://github.com/JETSCAPE/SummerSchool2022), you should have already downloaded all the code packages needed. **If you haven't downloaded the packages yet**, you can follow the steps below to do so. Below is the scripts to run in your  `Terminal` to get ready.
 
 ```shell
+# get into home directory
+cd ~
 # make a directory named /jetscape-docker in the home directory
 mkdir jetscape-docker
 cd jetscape-docker
@@ -85,7 +81,7 @@ cd JETSCAPE/external_packages
 ./get_iSS.sh
 ```
 
-Now please make sure all the code packages are already in the correct place on your computer. You should have a `jetscape-docker` folder under your `home` directory. Try to list the folder inside `jetscape-docker` with the following command,
+Now please make sure all the code packages are already in the correct place on your computer. You should have a `jetscape-docker` folder under your `home` directory. Try to list the folders inside `jetscape-docker` with the following command,
 
 ```shell
 ls ~/jetscape-docker
@@ -101,7 +97,7 @@ you should see `music/` and `iSS/` folders present. **They are modules needed fo
 
 ## ii. Set up a docker container
 
-> Note: Want to use yesterday's docker container? That should be fine. However, yesterday's JETSCAPE was not built with `MUSIC` and `iSS`. So in the next section `Build JETSCAPE with MUSIC and iSS`, you will still need to build JETSCAPE with those two modules on.
+> Note: If you want to use yesterday's docker container, that should be fine. However, it's likely that yesterday's JETSCAPE was not built with `MUSIC` and `iSS`. So in the next section **Build JETSCAPE with MUSIC and iSS**, you will still need to build JETSCAPE with those two modules on. See next section for details.
 
 In this session, we need to launch a docker container that supports the jupyternotebook. Please use the following command:
 
@@ -127,17 +123,30 @@ After the docker container is successfully se up, we can see the prompt of the `
 (base) Lipei@Lipeis-MacBook-Pro jetscape-docker %
 ```
 
-and the docker is set up and we are inside the docker container
+After the docker is set up and we are inside the docker container, it looks like
 
 ```sh
 jetscape-user@6bd94e16d1c3:~$
 ```
 
+<details>
+
+
+
+<summary>Expand to see some useful commands using docker containers</summary>
+
+- To see the containers you have running, and get their ID: `docker container ls` (`-a` to see also stopped containers)
+- To stop the container: `docker stop <container>` or `exit`
+- To re-start the container: `docker start -ai <container>`
+- To delete a container: `docker container rm <container>`
+
+</details>
+
 ## iii. Build JETSCAPE with MUSIC and iSS
 
 > Note: Below we will buid JETSCAPE and do all of our exercises in the `JETSCAPE/build` directory (a directory to be made).
 
-When you are **insider the docker container** and in `/home/jetscape-user` directory, type the following commands to setup the working directory,
+When you are **inside the docker container**, type the following commands to setup the working directory,
 
 ```shell
 cd ~/JETSCAPE
@@ -147,21 +156,25 @@ cmake .. -DUSE_MUSIC=ON -DUSE_ISS=ON
 make -j4
 ```
 
-Flags `-DUSE_MUSIC=ON -DUSE_ISS=ON` above mean we are compiling JETSCAPE framework with `MUSIC` and `iSS` modules on. For your reference, building the JETSCAPE framework took me **18 mins** on an early 2015 MacBook Pro.
+Flags `-DUSE_MUSIC=ON -DUSE_ISS=ON` above mean we are building JETSCAPE framework with `MUSIC` and `iSS` modules on. For your reference, building the JETSCAPE framework took me **18 mins** on an early 2015 MacBook Pro.
 
 # Part III. Get ready for the Hydro Session
 
 ## i. Copy Hydro Session scripts to the working directory
 
-> Note: We will copy scripts in `jetscape-user/SummerSchool2022/Jul28_Hydro/` to our working directory `jetscape-user/JETSCAPE/build` so that we can use the scripts therein to analyse the simulation results that will be generated by JETSCAPE. We will be running the following command lines in directory: `JETSCAPE/build`.
+> Note: We will copy scripts in `SummerSchool2022/Jul28_Hydro/` to our working directory `JETSCAPE/build` so that we can use the scripts therein to analyse the simulation results that will be generated by JETSCAPE. We will be running the following command lines in directory: `JETSCAPE/build`.
 
-To copy scripts in `jetscape-user/SummerSchool2022/Jul28_Hydro/` to our working directory `jetscape-user/JETSCAPE/build` , use the following command
+```shell
+cd ~/JETSCAPE/build
+```
+
+To copy scripts in `SummerSchool2022/Jul28_Hydro/` to our working directory `JETSCAPE/build` , use the following command
 
 ```shell
 cp -r ../../SummerSchool2022/Jul28_Hydro/hydro_session .
 ```
 
-Above the last `.` represent the current directory we are in, i. e. `jetscape-user/JETSCAPE/build`; please don't miss it.
+Above the last `.` represent the current directory we are in, i. e. `JETSCAPE/build`; please don't miss it.
 
 In the `hydro_session/` folder, we have the following folders
 
@@ -213,7 +226,7 @@ As users of the JETSCAPE framework, mostly we only need to provide a `user XML f
 
 <details>
 
-​	<summary>Click to expand the example of `user XML file`!</summary>
+​	<summary>Click to see the example of `user XML file`</summary>
 
 
 
@@ -249,11 +262,11 @@ As users of the JETSCAPE framework, mostly we only need to provide a `user XML f
 
 </details>
 
-The parameters we set in this user XML file will overwrite the ones in the `Master XML file` which can be found in `JETSCAPE/config/jetscape_master.xml` ([Link](https://github.com/JETSCAPE/JETSCAPE/blob/main/config/jetscape_master.xml); we don't change this file at all.). The Master XML file contains default values for every possible module and parameter settings which will be used for all activated modules (as specified by the User XML file), if they are not overridden in the User XML file (in the example above, we only set the parameter `<freezeout_temperature>` in the User XML file for `MUSIC`). The box below contains the parameters of `MUSIC` in the `jetscape_master.xml`.
+The parameters we set in this user XML file will overwrite the ones in the `master XML file` which can be found in `JETSCAPE/config/jetscape_master.xml` ([Link](https://github.com/JETSCAPE/JETSCAPE/blob/main/config/jetscape_master.xml); we don't change this file at all.). The master XML file contains default values for every possible module and parameter settings which will be used for all activated modules (as specified by the user XML file), if they are not overridden in the user XML file (in the example above, we only set the parameter `<freezeout_temperature>` in the user XML file for `MUSIC`). The box below contains the parameters of `MUSIC` in the `jetscape_master.xml`.
 
 <details>
 
-​	<summary>Click to expand `jetscape_master.xml`!</summary>
+​	<summary>Click to see part of `jetscape_master.xml`</summary>
 
 
 
@@ -283,27 +296,36 @@ The parameters we set in this user XML file will overwrite the ones in the `Mast
 
 </details>
 
-As you can see, it contains much more parameters that we didn't change in the above User XML file. You can read more about the XML configuration [here](https://github.com/JETSCAPE/JETSCAPE#the-xml-configuration).
+As you can see, it contains much more parameters that we didn't change in the above user XML file. You can read more about the XML configuration [here](https://github.com/JETSCAPE/JETSCAPE#the-xml-configuration).
 
-In fact, there are other parameters of `MUSIC` that are not controlled through the JETSCAPE settings specified by the above two XML files, and these parameters are specified in the parameter file of the `MUSIC` module itself: `JETSCAPE/build/music_input`. However, the above two XML files contains most of the parameters we need to change in realistic simulations. The other modules also have their own parameter file; for example, `iSS` particle sampler has its own parameter file `JETSCAPE/build/iSS_parameters.dat`.
+In fact, there are some other parameters of `MUSIC` that are not controlled through the JETSCAPE settings specified by the above two XML files, and these parameters are specified in the parameter file of the `MUSIC` module itself: `JETSCAPE/build/music_input`. However, the above two XML files contains most of the parameters we need to change in realistic simulations. The other modules also have their own parameter file; for example, `iSS` particle sampler has its own parameter file `JETSCAPE/build/iSS_parameters.dat`.
+
+<details>
+​	<summary>Click to see some notes on random seed setting</summary>  
+
+
+
+Users can specify a random seed for the entire simulation. This is specified inside the block `<Random>` in the xml file. If the `<seed>` parameter is set to 0. Then the random seed will be determined by the system time. If `<seed>` is set to any positive number, the JETSCAPE will perform simulations with the given positive number as the random seed for all its modules. A fixed seed simulation will be handy when we study the effect of viscosity during the hydrodynamic evolution.
+
+</details>
 
 # Part IV. Run the JETSCAPE framework
 
 > Note: We will run the scripts below in `JETSCAPE/build` directory. Executable file `runJetscape` in the directory is for running the JETSCAPE framework.
 
-Now we are ready to run the JETSCAPE framework with a few User XML files in `JETSCAPE/build/hydro_session/config` for a few exercises of this Hydro Session.
+Now we are ready to run the JETSCAPE framework with a few user XML files in `JETSCAPE/build/hydro_session/config` and use corresponding jupyter notebooks in `JETSCAPE/build/hydro_session/jupyter` to plot the results of a few exercises listed below for this Hydro Session.
 
-| Exercise | Collision system      | Viscosities              | Topic                             | user XML file                       |
-| -------- | --------------------- | ------------------------ | --------------------------------- | ----------------------------------- |
-| #1       | 0-5% Au-Au@200 GeV    | $\eta/s=0, \zeta/s(T)$   | particle yields and spectra       | config/jetscape_user_exercise_1.xml |
-| #2       | 20-30% Pb-Pb@2.76 TeV | $\eta/s=0, \zeta/s=0$    | evolution of flow and temperature | config/jetscape_user_exercise_2.xml |
-| #3       | 20-30% Pb-Pb@2.76 TeV | $\eta/s=0.15, \zeta/s=0$ | effects of shear viscosity        | config/jetscape_user_exercise_3.xml |
-| #4       | 20-30% Pb-Pb@2.76 TeV | $\eta/s=0, \zeta/s(T)$   | effects of bulk viscosity         | config/jetscape_user_exercise_4.xml |
-| homework | 20-30% Pb-Pb@5.02 TeV | $\eta/s(T), \zeta/s(T)$  | temperature-dependent viscosities | config/jetscape_user_homework.xml   |
+| Exercise | Collision system      | Viscosities              | Topic                             | user XML file and Jupyter                                    |
+| -------- | --------------------- | ------------------------ | --------------------------------- | ------------------------------------------------------------ |
+| #1       | 0-5% Au-Au@200 GeV    | $\eta/s=0, \zeta/s(T)$   | particle yields and spectra       | config/jetscape_user_exercise_1.xml jupyter/exercise_1_particle_spectra.ipynb |
+| #2       | 20-30% Pb-Pb@2.76 TeV | $\eta/s=0, \zeta/s=0$    | evolution of flow and temperature | config/jetscape_user_exercise_2.xml jupyter/exercise_2_hydro_movie.ipynb |
+| #3       | 20-30% Pb-Pb@2.76 TeV | $\eta/s=0.15, \zeta/s=0$ | effects of shear viscosity        | config/jetscape_user_exercise_3.xml jupyter/exercise_3_shear_viscosity.ipynb |
+| #4       | 20-30% Pb-Pb@2.76 TeV | $\eta/s=0, \zeta/s(T)$   | effects of bulk viscosity         | config/jetscape_user_exercise_4.xml                          |
+| homework | 30-40% Pb-Pb@5.02 TeV | $\eta/s(T), \zeta/s(T)$  | temperature-dependent viscosities | config/jetscape_user_homework.xml jupyter/homework_hydro_movie.ipynb |
 
 ## Exercise 1. Run JETSCAPE and compare to data
 
-> In this exercise, we will run the framework with the [User XML file](https://github.com/JETSCAPE/SummerSchool2022/blob/main/Jul28_Hydro/config/jetscape_user_exercise_1.xml) `jetscape_user_exercise_1.xml`, which runs `Trento+MUSIC+iSS` and produces a particle list, and save all the results in a folder `run_exercise_1`. 
+> In this exercise, we will run the framework with the [user XML file](https://github.com/JETSCAPE/SummerSchool2022/blob/main/Jul28_Hydro/config/jetscape_user_exercise_1.xml) `jetscape_user_exercise_1.xml`, which runs `Trento+MUSIC+iSS` and produces a particle list, and then we save all the results in a folder `run_exercise_1`. 
 
 In  `JETSCAPE/build` directory, run the following scripts
 
@@ -313,9 +335,11 @@ In  `JETSCAPE/build` directory, run the following scripts
 ./hydro_session/collect_all_results.sh run_exercise_1
 ```
 
- After it's done, you should find a folder `run_exercise_1` which has all the results of this event inside. The last line above create a fold `run_exercise_1` and moves all results there.
+The last line above create a folder `run_exercise_1` and moves all results there. After it's done, you should find a folder `hydro_session/run_exercise_1` which has all the results of this event inside. 
 
-With the produced `hadron_list.dat` file, the users can apply their own analysis script to compute particle spectra, mean $p_T$, and anisotropic flow coefficients $v_n$. Example analysis codes are `analyze_particle_spectra_and_vn.ipynb`.
+With the produced `hadron_list.dat` file, the users can apply the analysis script to compute particle spectra, mean $p_T$, and anisotropic flow coefficients $v_n$. In your browser, we first go into the `hydro_session` folder, and then open the notebook `exercise_1_particle_spectra.ipynb` by clicking on it. Once the notebook is open, the user can execute the cells in this notebook. Press `shift+enter` to execute the cell blocks in the notebook. 
+
+### More about settings and output files
 
 In `jetscape_user_exercise_1.xml`, we use the following settings
 
@@ -327,11 +351,11 @@ In `jetscape_user_exercise_1.xml`, we use the following settings
 <JetScapeWriterAscii> on </JetScapeWriterAscii>
 ```
 
-which mean the framework will run `<nEvents>` events in total, but every hydro file will be reused `<nReuseHydro>` times. As a results, we will run the particle sampler `iSS`  `<nReuseHydro>`  times, for each hydro freeze-out surface.
+which mean the framework will run `<nEvents>` events in total, but every hydro file will be reused `<nReuseHydro>` times. As a results, for each hydro freeze-out surface, we will run the particle sampler `iSS`  `<nReuseHydro>`  times.
 
-### a. Hydro stage: MUSIC
+#### a. Hydro stage: MUSIC
 
-In the box below, the result files from MUSIC are listed:
+The result files from MUSIC are listed in the box below:
 
 ```shell
 # evolution of a few hydro quantities
@@ -349,14 +373,25 @@ surface_MUSIC.dat
 evolution_all_xyeta_MUSIC.dat
 ```
 
-We will make some plots of hydro evolution using three files among them in **Exercise 2** below.
+We will make some plots of hydro evolution using a few files in the box in **Exercise 2** below.
 
-### b. Particlization: iSS
+#### b. Particlization: iSS
 
-In JETSCAPE, a third-party particle sampler iSpectraSampler (iSS) is employed to convert fluid cells to particles. The iSS produces Monte-Carlo particles
-from the hydrodynamic hyper-surface. The spatial and momentum distributions of particles follow the Cooper-Frye Formula.
+In JETSCAPE, the particle sampler iSpectraSampler (iSS) is employed to convert fluid cells to particles. The iSS samples particles from the hydrodynamic hyper-surface `surface_MUSIC.dat`. We use the following settings for `iSS`:
 
-The sampled hadrons are output in the `test_out.dat`. Below is what is in `test_out.dat`:
+```xml
+<!-- Particlization Module  -->
+<SoftParticlization>
+  <iSS> 
+  	<number_of_repeated_sampling>1</number_of_repeated_sampling>
+  	<Perform_resonance_decays>1</Perform_resonance_decays>
+  </iSS>
+</SoftParticlization>
+```
+
+which means in every event, one carries out the particle sampler `<number_of_repeated_sampling>` times, and then let the resonances decay. Setting `<Perform_resonance_decays>` as `0` will keep all the resonances in the particle list, and then one can feed this list in `SMASH` for the hadronic afterburner.
+
+When `iSS` samples particles, the spatial and momentum distributions of them follow the Cooper-Frye formula. The sampled hadrons are written in `test_out.dat` which contains:
 
 ```python
 0 Event
@@ -369,12 +404,11 @@ The sampled hadrons are output in the `test_out.dat`. Below is what is in `test_
 [1] H 0 -211 11 0.447064 1.87298 2.87919 1.4954 -6.34382 -1.05008 26.6999 27.036
 [2] H 0 -211 11 0.461259 -3.45958 3.99722 7.34344 -1.91193 -4.53985 -69.9682 70.1573
 [3] H 0 -211 11 0.574241 1.96799 2.98754 2.09938 -2.87482 -1.05026 35.6444 36.4561
-[4] H 0 -211 11 0.113674 -3.08049 2.1532 1.24755 1.92601 -1.64934 -35.8489 36.7198
 ...
 ...
 ```
 
-Running another code script `FinalStateHadrons` one can extract the final state hadron list from the `test_out.dat` file (i.e. `./FinalStateHadrons test_out.dat hadron_list.dat` above. This line generates the file `hadron_list.dat`.) Below is what is in `hadron_list` file:
+By running another script `FinalStateHadrons`, one can extract the final state hadron list from the `test_out.dat` file (i.e. `./FinalStateHadrons test_out.dat hadron_list.dat` above.) This line generates the file `hadron_list.dat`. Below is what is in `hadron_list` file:
 
 ```python
 #	1.4822e-322	Event1ID	5841	pstat-EPx	Py	Pz	Eta	Phi
@@ -396,7 +430,7 @@ In  `JETSCAPE/build` directory, run the following scripts
 ./FinalStateHadrons test_out.dat hadron_list.dat; ./hydro_session/collect_all_results.sh run_exercise_2
 ```
 
-In this exercise, we use the following settings for MUSIC and run an ideal hydro evolution. Later we will compare this evolution to the other cases with viscous effects.
+In this exercise, we use the following settings for MUSIC and thus run an ideal hydro evolution. Later we will compare this evolution to the other cases with viscous effects.
 
 ```xml
 <MUSIC>
@@ -417,55 +451,72 @@ From `Terminal`, you can see indeed the framework runs ideal hydro evolution:
 🎵 166.3 MB initial distribution done.
 ```
 
-We will get the output results like exercise 1. In this exercise, we will plot the results in three files to show the hydro evolution:
+In this exercise, we will plot the results in the following files to show the hydro evolution:
 
-1. **spacial eccentricity:** `eccentricities_evo_eta_-0.5_0.5.dat` which records the evolution of spacial eccentricity of the fireball. Its format is: `# tau(fm)  ecc_n(cos)  ecc_n(sin) (n=1-6)`.
-2. **momentum anisotropy, average velocity, and average temperature:** `momentum_anisotropy_eta_-0.5_0.5.dat`. Its format is: `# tau(fm)  epsilon_p(ideal) epsilon_p(shear) epsilon_p(full) ecc_2  ecc_3  R_Pi  gamma  T[GeV]`.
-3. **space-time hydro evolution:** `evolution_all_xyeta_MUSIC.dat`. This file contains the evolution history of fluid cells above T = 140 MeV. Every fluid cell includes the following information:`itau  ix  iy  ieta  e[GeV/fm^3]  P[GeV/fm^3]  T[GeV]  u^x  u^y \tau*u^\eta`.
+1. **spacial eccentricity:** `eccentricities_evo_eta_-0.5_0.5.dat` which records the evolution of spacial eccentricity of the fireball.
+2. **momentum anisotropy:** `momentum_anisotropy_eta_-0.5_0.5.dat`.
+3. **average velocity and average temperature:**`inverse_Reynolds_number_eta_-0.5_0.5.dat`.
+4. **space-time hydro evolution:** `evolution_all_xyeta_MUSIC.dat`. This file contains the evolution history of fluid cells above T = 140 MeV.
 
-In your browser, we first go into the `hydro_session` folder. We can open the notebook `exercise_2_hydro_movie.ipynb` by click on it inside the browser. Once the notebook is opened, the user can execute every cell in this notebook one-by-one. Press **`shift+enter`** to execute the cell block in the notebook. After it is opened inside your browser, you can execute the code cells one by one to generate 2D color contour plots as well as animation for the temperature and fluid velocity evolution.
+To plot the results, open the jupyter notebook `hydro_session/jupyter/exercise_2_hydro_movie.ipynb` in your browser and then run all the cells to generate 2D color contour plots as well as animation for the temperature and fluid velocity evolution.
 
 ## Exercise 3. Plot flow velocity evolution and see effects from shear viscosity
 
-## Exercise 4. Plot particle mean $p_T$ and see effects from bulk viscosity
+In  `JETSCAPE/build` directory, run the following scripts
+
+```
+./runJetscape hydro_session/config/jetscape_user_exercise_3.xml; ./hydro_session/collect_all_results.sh run_exercise_3
+```
+
+We don't sample particles for this case to save some computational time. Please use `hydro_session/jupyter/exercise_3_shear_viscosity.ipynb` to plot the results.
+
+## Exercise 4. Plot particles mean $p_T$ and see effects from bulk viscosity
+
+In  `JETSCAPE/build` directory, run the following scripts
+
+```
+./runJetscape hydro_session/config/jetscape_user_exercise_4.xml; ./FinalStateHadrons test_out.dat hadron_list.dat; ./hydro_session/collect_all_results.sh run_exercise_4
+```
 
 # Homework
 
 ## Temperature dependent $(\eta/s)(T)$ and $(\zeta/s)(T)$
 
-One can further try a temperature-dependent $(\eta/s)(T)$ by setting the variable `<T_dependent_Shear_to_S_ratio>` to **3**. Once this parameter is set to 3, the previous parameter `<shear_viscosity_eta_over_s>` will be ineffective. The users need to further specify the following four parameters,
+For the homework, we will use user XML file `hydro_session/config/jetscape_user_homework.xml`. In this file, one can try a temperature-dependent $(\eta/s)(T)$ by setting the variable `<T_dependent_Shear_to_S_ratio>` to `3`. Once this parameter is set to 3, the previous parameter `<shear_viscosity_eta_over_s>` will be ineffective. The users need to further specify the following four parameters,
 
 ```
-1. <eta_over_s_T_kink_in_GeV>
-2. <eta_over_s_low_T_slope_in_GeV>
-3. <eta_over_s_high_T_slope_in_GeV>
-4. <eta_over_s_at_kink>
+<eta_over_s_T_kink_in_GeV>
+<eta_over_s_low_T_slope_in_GeV>
+<eta_over_s_high_T_slope_in_GeV>
+<eta_over_s_at_kink>
 ```
 
 to characterize the temperature dependence of $(\eta/s)(T)$.
 
 <img src="plots/plot_eta_over_s_T.png" alt="4" width="400"/> 
 
-Siimilar to the case for $(\eta/s)(T)$, the uses can set the parameter `<temperature_dependent_bulk_viscosity>` to **3** in the xml file to include a temperature dependent $(\zeta/s)(T)$. With `<temperature_dependent_bulk_viscosity>` set to 3, the users needs to further provide four additional parameters to characterize the shape of $(\zeta/s)(T)$. They are as follows,
+Similar to the case for $(\eta/s)(T)$, the users can set the parameter `<temperature_dependent_bulk_viscosity>` to `3` in the xml file to include a temperature dependent $(\zeta/s)(T)$. With `<temperature_dependent_bulk_viscosity>` set to 3, the users needs to further provide four additional parameters to characterize the shape of $(\zeta/s)(T)$. They are as follows,
 
 ```
-1. <zeta_over_s_max>
-2. <zeta_over_s_T_peak_in_GeV>
-3. <zeta_over_s_width_in_GeV>
-4. <zeta_over_s_lambda_asymm>
+<zeta_over_s_max>
+<zeta_over_s_T_peak_in_GeV>
+<zeta_over_s_width_in_GeV>
+<zeta_over_s_lambda_asymm>
 ```
 
 The parameterization is
 
-<img src="plots/plot_zeta_over_s_T.png" alt="4" width="400"/> 
+<img src="plots/plot_zeta_over_s_T.png" alt="4" width="350"/> 
 
-Users can play with settings in `hydro_session/jetscape_user_homework.xml`.
+Users can play with settings in `hydro_session/config/jetscape_user_homework.xml` and run JETSCAPE with it.
 
 ```
-cd ~/JETSCAPE/build
-./runJetscape hydro_session/jetscape_user_homework.xml; bash ./hydro_session/collect_results.sh run_homework
+./runJetscape hydro_session/config/jetscape_user_homework.xml
+./hydro_session/collect_all_results.sh run_homework
 ```
 
-The plotting scripts above can be adapted to plot the results. The parametrization of shear and bulk viscosities are shown below (from [paper of JETSCAPE](https://arxiv.org/pdf/2011.01430)).
+The parametrization of shear and bulk viscosities in `jetscape_user_homework.xml` are shown below (from [paper of JETSCAPE](https://arxiv.org/pdf/2011.01430)).
 
 <img src="plots/plot_TempVis_vis.png" alt="4" width="600"/> 
+
+The plotting scripts used in the above exercises can be adapted to plot the results (as an example, see `hydro_session/jupyter/homework_hydro_movie.ipynb`). You can pick your favorite collision system (colliding nuclei, collision energy, and centrality) and generate a hydrodynamic evolution animation. 

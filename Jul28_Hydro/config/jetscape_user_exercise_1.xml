@@ -2,9 +2,9 @@
 
 <jetscape>
     <!-- General settings -->
-    <nEvents> 10 </nEvents>
+    <nEvents> 20 </nEvents>
     <setReuseHydro> true </setReuseHydro>
-    <nReuseHydro> 10 </nReuseHydro>
+    <nReuseHydro> 20 </nReuseHydro>
     <JetScapeWriterAscii> on </JetScapeWriterAscii>
 
     <Random>
@@ -25,7 +25,7 @@
                     target='Au'
                     sqrts='200.'
                     cross-section='4.23'
-                    normalization='6.1'>
+                    normalization='11.'>
             </PhysicsInputs>
             <CutInputs  centrality-low='0'
                   centrality-high='5'>
