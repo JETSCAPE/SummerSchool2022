@@ -41,8 +41,8 @@
     <Hydro>
         <MUSIC>
             <name>MUSIC</name>
-            <shear_viscosity_eta_over_s>0.</shear_viscosity_eta_over_s>
-            <temperature_dependent_bulk_viscosity>1</temperature_dependent_bulk_viscosity>
+            <shear_viscosity_eta_over_s>1.e-3</shear_viscosity_eta_over_s>
+            <temperature_dependent_bulk_viscosity>9</temperature_dependent_bulk_viscosity>
             <freezeout_temperature>0.150</freezeout_temperature>
         </MUSIC>
     </Hydro>

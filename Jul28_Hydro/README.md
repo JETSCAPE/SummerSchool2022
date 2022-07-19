@@ -23,7 +23,7 @@
 
 # Part I. Introduction 
 
-> Note: Please join the Slack Channel: [# jul27-jul28-hydro](https://jetscapeschool2022.slack.com/archives/C03Q6PBQ1DX) and post your questions there.
+> Note: Please join the Slack Channel: [# july27-28-bulk-dynamics](https://jetscapeschool2022.slack.com/archives/C03G5K1CHN3) and post your questions there.
 
 > The instructions below are adapted from the materials of the Hydro Sessions at [Summer School 2021](https://github.com/JETSCAPE/SummerSchool2021/tree/master/Jul21_Hydro/hydro_session) and [Summer School 2020](https://github.com/JETSCAPE/SummerSchool2020/tree/master/hydro_session) (Lecturer: Chun Shen).
 
@@ -320,7 +320,7 @@ Now we are ready to run the JETSCAPE framework with a few user XML files in `JET
 | #1       | 0-5% Au-Au@200 GeV    | $\eta/s=0, \zeta/s(T)$   | particle yields and spectra       | config/jetscape_user_exercise_1.xml jupyter/exercise_1_particle_spectra.ipynb |
 | #2       | 20-30% Pb-Pb@2.76 TeV | $\eta/s=0, \zeta/s=0$    | evolution of flow and temperature | config/jetscape_user_exercise_2.xml jupyter/exercise_2_hydro_movie.ipynb |
 | #3       | 20-30% Pb-Pb@2.76 TeV | $\eta/s=0.15, \zeta/s=0$ | effects of shear viscosity        | config/jetscape_user_exercise_3.xml jupyter/exercise_3_shear_viscosity.ipynb |
-| #4       | 20-30% Pb-Pb@2.76 TeV | $\eta/s=0, \zeta/s(T)$   | effects of bulk viscosity         | config/jetscape_user_exercise_4.xml                          |
+| #4       | 20-30% Pb-Pb@2.76 TeV | $\eta/s=0, \zeta/s(T)$   | effects of bulk viscosity         | config/jetscape_user_exercise_4.xml jupyter/exercise_4_particle_pT.ipynb |
 | homework | 30-40% Pb-Pb@5.02 TeV | $\eta/s(T), \zeta/s(T)$  | temperature-dependent viscosities | config/jetscape_user_homework.xml jupyter/homework_hydro_movie.ipynb |
 
 ## Exercise 1. Run JETSCAPE and compare to data
@@ -443,7 +443,7 @@ In this exercise, we use the following settings for MUSIC and thus run an ideal 
 
 From `Terminal`, you can see indeed the framework runs ideal hydro evolution:
 
-```
+```shell
 🎵 166.3 MB  ----- information on initial distribution -----
 🎵 166.3 MB initialized with a JETSCAPE initial condition.
 🎵 166.3 MB Running ideal hydrodynamic simulations ...
@@ -464,19 +464,45 @@ To plot the results, open the jupyter notebook `hydro_session/jupyter/exercise_2
 
 In  `JETSCAPE/build` directory, run the following scripts
 
-```
+```shell
 ./runJetscape hydro_session/config/jetscape_user_exercise_3.xml; ./hydro_session/collect_all_results.sh run_exercise_3
 ```
 
 We don't sample particles for this case to save some computational time. Please use `hydro_session/jupyter/exercise_3_shear_viscosity.ipynb` to plot the results.
 
+We use the following parameters for `MUSIC` in `config/jetscape_user_exercise_3.xml`
+
+```xml
+<MUSIC>
+  <name>MUSIC</name>
+  <shear_viscosity_eta_over_s>0.15</shear_viscosity_eta_over_s>
+  <temperature_dependent_bulk_viscosity>0</temperature_dependent_bulk_viscosity>
+  <freezeout_temperature>0.150</freezeout_temperature>
+</MUSIC>
+```
+
+which set bulk viscosity zero, and specific shear viscosity constant 0.15.
+
 ## Exercise 4. Plot particles mean $p_T$ and see effects from bulk viscosity
 
 In  `JETSCAPE/build` directory, run the following scripts
 
-```
+```shell
 ./runJetscape hydro_session/config/jetscape_user_exercise_4.xml; ./FinalStateHadrons test_out.dat hadron_list.dat; ./hydro_session/collect_all_results.sh run_exercise_4
 ```
+
+We use the following parameters for `MUSIC` in `config/jetscape_user_exercise_4.xml`
+
+```xml
+<MUSIC>
+  <name>MUSIC</name>
+  <shear_viscosity_eta_over_s>1.e-3</shear_viscosity_eta_over_s>
+  <temperature_dependent_bulk_viscosity>9</temperature_dependent_bulk_viscosity>
+  <freezeout_temperature>0.150</freezeout_temperature>
+</MUSIC>
+```
+
+Here we set a very small but nonzero value for `<shear_viscosity_eta_over_s>`, because in the default settings of JETSCAPE, making it smaller than `1.e-6` would make `Viscosity_Flag_Yes_1_No_0=0` and thus turn off bulk viscosity as well. However, in this exercise, we would like to have nonzero bulk viscosity but not shear viscosity.
 
 # Homework
 
@@ -506,7 +532,7 @@ Similar to the case for $(\eta/s)(T)$, the users can set the parameter `<tempera
 
 The parameterization is
 
-<img src="plots/plot_zeta_over_s_T.png" alt="4" width="350"/> 
+<img src="plots/plot_zeta_over_s_T.png" alt="4" width="300"/> 
 
 Users can play with settings in `hydro_session/config/jetscape_user_homework.xml` and run JETSCAPE with it.
 
