@@ -115,8 +115,25 @@ Now, you can start the JETSCAPE run with SMASH
 ```
 
 
-<!-- While the calculation is running, we have a look at the SMASH inputs and configuration.
+<!--
+
+### Analysis Steps
+1. Analysis particle multiplicities as a first step
+2. Analyse pt
+3. Plot pt spectra and mean pt
+4. Look at scatterings proton (More open question)
+
+### Notes
+
+* Make output directory argument
+* Let them look somethig up in the doc but
+* Check that JETSCAPE outputs are the same by comparing line numbers of test output and smash output (we use binary smash output as we have nice scripts taken from analysis suite)
+
+
+While the calculation is running, we have a look at the SMASH inputs and configuration.
 
 ### 2) SMASH's in- and outputs
 
-### 3) Afterburner effects on spectra -->
+### 3) Afterburner effects on spectra
+
+-->
