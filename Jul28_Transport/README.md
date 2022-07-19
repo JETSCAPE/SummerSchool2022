@@ -9,10 +9,14 @@ If you have time before the session itself, it would be perfect, if you follow t
 
 <!-- ## Brief physics background on SMASH
 
-See also lecture from yesterday. SMASH can also be used on its own for low-energy collisions.
+See also lecture from yesterday. SMASH can also be used on its own for low-energy collisions. -->
 
 
-### Future references for SMASH -->
+#### Details and references for SMASH
+
+A complete User Guide can be found [here](https://theory.gsi.de/~smash/userguide/current/). For a more
+detailed development documentation, see
+[here](http://theory.gsi.de/~smash/doc/current/).
 
 
 ### 1) Compile and run JETSCAPE with SMASH
@@ -81,13 +85,37 @@ make -j4  # builds using 4 cores; adapt as appropriate
 
 On my Macbook from 2018 with 4 docker cores, this took about **12 mins**. With this you are set to run JETSCAPE with SMASH.
 
+#### Running JETSCAPE with SMASH
 
-_Further instructions: TBD._
+As we later one want to look at the collision output from SMASH, we need to create a `smash_output` directory inside the `build` directory.
 
-<!-- #### Running JETSCAPE with SMASH
+```
+cd ~/JETSCAPE/build
+mkdir smash_output
+```
+
+Note: SMASH will only write to its own output in addition to the JETSCAPE output, if this directory exists.
+
+To produce the collision output, you have to add it the SMASH config file. Look for output section in the `smash_config.yaml` file in the `Jul28_Transport` directory. Add a `Collisions` section in the same way a particles section is already there. In the end, the section should look like this. Be careful that the indentation is the same everywhere.
+
+```
+Output:
+    Output_Interval:  5.0
+    Particles:
+        Format:          ["Oscar2013", "Binary"]
+    Collisions:
+        Format:          ["Oscar2013", "Binary"]
+
+```
+
+Now, you can start the JETSCAPE run with SMASH
+
+```
+./runJetscape ../../SummerSchool2022/Jul28_Transport/jetscape_user_smash.xml
+```
 
 
-While the calculation is running, we have a look at the SMASH inputs and configuration.
+<!-- While the calculation is running, we have a look at the SMASH inputs and configuration.
 
 ### 2) SMASH's in- and outputs
 
