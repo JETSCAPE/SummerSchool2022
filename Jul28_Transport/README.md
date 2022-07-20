@@ -223,17 +223,34 @@ With our second run finished, we can plot the comparison after analizing again a
 python ${TRANSPORT_FOLDER}/anl_pt.py p,π⁻,K⁺ smash_output/particles_binary.bin results_wo_rescatt ${TRANSPORT_FOLDER}/dummy_config.yaml
 
 # Plotting a comparison
- python ${TRANSPORT_FOLDER}/plot_pt.py results_with_rescatt,results_wo_rescatt ${TRANSPORT_FOLDER}/dummy_config.yaml
+python ${TRANSPORT_FOLDER}/plot_pt.py results_with_rescatt,results_wo_rescatt ${TRANSPORT_FOLDER}/dummy_config.yaml
 ```
 
 Look first at the pT spectra plot. **Answer**: What do you notice? Can you confirm you observation withe mean pT plot?
 
 
+#### Investigate the scattering of protons
+
+To see how the protons are effected in the late, rescattering stage, we can look at at the microscopic scattering history of the protons in this phase.
+
+To do that we can analyze the collision output of the first calculation with SMASH. As a starting point, you can run the script `anl_proton_reactions.py`, which will print out all proton reaction partners in the different events and the number of total proton reactions.
+
+```sh
+python ${TRANSPORT_FOLDER}/anl_proton_reactions.py smash_output_with_rescatt/collisions_binary.bin
+```
+
+The printed out numbers are pdg numbers, you can translate them with the particles.txt file in the `SummerSchool2022/Jul28_Transport` directory.
+
+Just printing out the scattering partner pdgs is surely not very useful. Therefore, as the last part of this hands-on, it is your turn to investigate the scatterings of the protons a bit more. Think yourself about how you would investigate the proton's scatterings to learn more how and what influences them.
+
+For this, take a look at the script and modify it according to your idea. Some properties of the scattering are already extracted but not yet used in the script.
+
+For example, you could count how often the proton scatters with a certain particle species, what type of scatterings occur or what the outgoing products of the scatterings are. If your not familiar with python, you can also tell us your idea and we can try to help you with it.
+
+This last step of the hands-on is on purpose more an open question for you to explore. We are interested to learn your ideas.
+
 
 <!--
-
-### Analysis Steps
-4. Look at scatterings proton (More open question)
 
 ### Notes
 

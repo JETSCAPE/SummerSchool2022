@@ -27,8 +27,11 @@ def analyze_file(path):
                 if (block["incoming"]["pdgid"][0] == pdg_proton) or (block["incoming"]["pdgid"][1] == pdg_proton):
                     intcounter += 1
 
+                    # proton scattering propterties
                     pdg_scatt_partner = block["incoming"]["pdgid"][0] if (block["incoming"]["pdgid"][1] == pdg_proton) else block["incoming"]["pdgid"][1]
                     time = sb.get_block_time(block)
+                    outgoing_pdgs = block["outgoing"]["pdgid"]
+                    process_type = block["process_type"]  # see documentation for process types http://theory.gsi.de/~smash/doc/2.2/namespacesmash.html#a4fe2931bde1378bf2ff49ccf40dbb08c
 
                     print(pdg_scatt_partner)
 
