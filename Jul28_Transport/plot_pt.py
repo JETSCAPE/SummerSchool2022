@@ -15,9 +15,8 @@ m_styles   = []
 input_dirs_list = args.input_dirs.split(',')
 
 for i,input_dir in enumerate(input_dirs_list):
-    print(input_dir, i)
+    #print(input_dir, i)
     input_files = glob.glob(input_dir+("/*.txt"))
-    print (input_files)
 
     for j, input_file in enumerate(input_files):
 
@@ -33,10 +32,11 @@ for i,input_dir in enumerate(input_dirs_list):
 
             bins_and_hist = np.loadtxt(input_file, skiprows=6)
             bin_width = bins_and_hist[0][1] - bins_and_hist[0][0]
-            plt.plot(bins_and_hist[0],bins_and_hist[1]/bin_width, label=sb.pdg_to_name(pdg, args.config_file)+" "+input_dir.replace("results_",""), linestyle=l_styles[i])
+            # plot dN/pTdpT
+            plt.plot(bins_and_hist[0],bins_and_hist[1]/(bin_width*bins_and_hist[0]), label=sb.pdg_to_name(pdg, args.config_file)+" "+input_dir.replace("results_",""), linestyle=l_styles[i])
 
 plt.xlabel(r'$p_T$ [GeV]')
-plt.ylabel(r'$dN/dp_T$ [1/GeV]')
+plt.ylabel(r'$dN/p_Tdp_T$ [1/GeV]')
 plt.legend(ncol=2)
 plt.yscale('log')
 plt.savefig("pt_spectra.pdf")
@@ -46,9 +46,7 @@ plt.cla()
 custom_xticks = []
 custom_xticks_labels = []
 for i,input_dir in enumerate(input_dirs_list):
-    print(input_dir, i)
     input_files = glob.glob(input_dir+("/*.txt"))
-    print (input_files)
 
     for j, input_file in enumerate(input_files):
 
@@ -61,8 +59,6 @@ for i,input_dir in enumerate(input_dirs_list):
             avg_pt_err = float(f.readline())
             f.readline()
             f.readline()
-
-            print(j, avg_pt, avg_pt_err)
 
             plt.errorbar(float(j), avg_pt, yerr=avg_pt_err,fmt='o' ,label=sb.pdg_to_name(pdg, args.config_file)+" "+input_dir.replace("results_",""))
             custom_xticks.append(float(j))

@@ -16,8 +16,6 @@ Output:
     Output_Interval:  5.0
     Particles:
         Format:          ["Oscar2013", "Binary"]
-    Collisions:
-        Format:          ["Oscar2013", "Binary"]
 
 Collision_Term:
     No_Collisions: False     # Since False is the default this section usually

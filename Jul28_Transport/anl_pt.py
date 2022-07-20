@@ -17,7 +17,7 @@ pdg_list = np.array([int(sb.name_to_pdg(x, args.config_file)) for x in args.pdg_
 total_pdgs = pdg_list.shape[0]
 
 # Binning in pt
-n_bins = 70
+n_bins = 50
 bin_edges = np.linspace(0.0, 2.0, num=n_bins + 1)
 bin_centers = (bin_edges[:-1] + bin_edges[1:]) / 2.0
 
