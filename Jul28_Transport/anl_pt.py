@@ -6,9 +6,11 @@ import numpy as np
 
 parser = argparse.ArgumentParser()
 parser.add_argument("pdg_list", type=str)
-parser.add_argument("config_file", help="config file")
 parser.add_argument("file_to_analyze", type=str,
                     help="binary file containing collision history")
+parser.add_argument("output_dir", type=str)
+parser.add_argument("config_file", help="config file")
+
 args = parser.parse_args()
 
 pdg_list = np.array([int(sb.name_to_pdg(x, args.config_file)) for x in args.pdg_list.split(',')])
@@ -37,7 +39,6 @@ def analyze_file(path):
                 px = block['part']['p'][:,1]
                 py = block['part']['p'][:,2]
                 pt = np.sqrt(px*px + py*py)  # pt of all particles
-                print(pt)
                 for i in np.arange(len(block['part'])):
                     part = block['part'][i]
                     if part['pdgid'] in pdg_list:
@@ -45,16 +46,16 @@ def analyze_file(path):
                         idx = idx[0][0]  # numpy where returns array
                         pt_lists[idx].append(pt[i])
                         pt_sqr_lists[idx].append(pt[i]*pt[i])
-    print(len(pt_lists))
+
     for i in range(total_pdgs):
         pt_average = float(sum(pt_lists[i]))/len(pt_lists[i])
         pt_sqr_average = float(sum(pt_sqr_lists[i]))/len(pt_sqr_lists[i])
         pt_avg_err = np.sqrt((pt_sqr_average - pt_average * pt_average)/(len(pt_lists[i]) - 1))
-        print("Avg. pt =", pt_average,"+-", pt_avg_err)
+        print("<pt>("+str(pdg_list[i])+") =", pt_average,"+-", pt_avg_err)
         hist, _ = np.histogram(pt_lists[i], bins=bin_edges)
         hist = hist/float(event_num)
-        if not os.path.exists("./results"): os.mkdir("./results")
-        with open("./results/pt_"+str(pdg_list[i])+".txt", 'w') as f:
+        if not os.path.exists(args.output_dir): os.mkdir(args.output_dir)
+        with open(args.output_dir+"/pt_"+str(pdg_list[i])+".txt", 'w') as f:
             f.write('# pt histogram for:\n' % pdg_list[i])
             f.write('%d\n' % pdg_list[i])
             f.write('# <pt> \n')

@@ -20,7 +20,8 @@ Output:
         Format:          ["Oscar2013", "Binary"]
 
 Collision_Term:
-    No_Collisions: False
+    No_Collisions: False     # Since False is the default this section usually
+                             # does not have to be here
 
 # This section is dummy
 List:

@@ -5,14 +5,16 @@ import smash_basic_scripts as sb
 import argparse
 
 parser = argparse.ArgumentParser()
+parser.add_argument("input_dirs", type=str)
 parser.add_argument("config_file", help="config file")
 args = parser.parse_args()
 
-input_dirs = ["results_wo_rescatt_rr","results_with_rescatt_rr"]
-l_styles   = ["--"     ,  "-"]
+l_styles   = ["-",  "--"]
+m_styles   = []
 
+input_dirs_list = args.input_dirs.split(',')
 
-for i,input_dir in enumerate(input_dirs):
+for i,input_dir in enumerate(input_dirs_list):
     print(input_dir, i)
     input_files = glob.glob(input_dir+("/*.txt"))
     print (input_files)
@@ -43,7 +45,7 @@ plt.cla()
 
 custom_xticks = []
 custom_xticks_labels = []
-for i,input_dir in enumerate(input_dirs):
+for i,input_dir in enumerate(input_dirs_list):
     print(input_dir, i)
     input_files = glob.glob(input_dir+("/*.txt"))
     print (input_files)
