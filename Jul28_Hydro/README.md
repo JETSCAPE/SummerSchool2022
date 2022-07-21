@@ -171,7 +171,7 @@ cd ~/JETSCAPE/build
 To copy scripts in `SummerSchool2022/Jul28_Hydro/` to our working directory `JETSCAPE/build` , use the following command
 
 ```shell
-cp -r ../../SummerSchool2022/Jul28_Hydro/hydro_session .
+cp -r ../../SummerSchool2022/Jul28_Hydro ./hydro_session
 ```
 
 Above the last `.` represent the current directory we are in, i. e. `JETSCAPE/build`; please don't miss it.
@@ -337,7 +337,7 @@ In  `JETSCAPE/build` directory, run the following scripts
 
 The last line above create a folder `run_exercise_1` and moves all results there. After it's done, you should find a folder `hydro_session/run_exercise_1` which has all the results of this event inside. 
 
-With the produced `hadron_list.dat` file, the users can apply the analysis script to compute particle spectra, mean $p_T$, and anisotropic flow coefficients $v_n$. In your browser, we first go into the `hydro_session` folder, and then open the notebook `exercise_1_particle_spectra.ipynb` by clicking on it. Once the notebook is open, the user can execute the cells in this notebook. Press `shift+enter` to execute the cell blocks in the notebook. 
+With the produced `hadron_list.dat` file, the users can apply the analysis script to compute particle spectra, mean $p_T$. In your browser, we first go into the `hydro_session` folder, and then open the notebook `exercise_1_particle_spectra.ipynb` by clicking on it. Once the notebook is open, the user can execute the cells in this notebook. Press `shift+enter` to execute the cell blocks in the notebook. 
 
 ### More about settings and output files
 
