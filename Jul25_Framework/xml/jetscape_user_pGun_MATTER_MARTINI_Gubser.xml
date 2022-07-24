@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+
+<jetscape>
+  
+  <nEvents> 100 </nEvents>
+  
+  <JetScapeWriterAscii> on </JetScapeWriterAscii>
+  <outputFilename>test_out_pGun_MATTER_MARTINI_Gubser</outputFilename>
+  <JetScapeWriterFinalStateHadronsAscii> on </JetScapeWriterFinalStateHadronsAscii>
+  <JetScapeWriterFinalStatePartonsAscii> on </JetScapeWriterFinalStatePartonsAscii>
+
+  <vlevel> 0 </vlevel>
+  <nEvents_printout> 1 </nEvents_printout>
+
+  <Random>
+    <seed>0</seed>
+  </Random> 
+
+  <!-- Hard Process -->
+  <Hard>
+    <PGun>
+      <name>PGun</name>
+      <pT>100</pT>
+      <parID>21</parID>
+      <useHybridHad>0</useHybridHad>
+    </PGun>
+  </Hard>
+
+  <!-- Hydro  Module  -->
+  <Hydro>
+      <Gubser>
+      </Gubser>
+  </Hydro>
+  
+  <!--Eloss Modules -->
+  <Eloss>
+    <deltaT>0.01</deltaT>
+    <formTime> -0.1</formTime>
+    <maxT>20</maxT>
+    <tStart> 0.9 </tStart> <!-- Start time of jet quenching, proper time, fm/c   -->
+
+    <Matter> 
+      <name>Matter</name>
+      <useHybridHad>0</useHybridHad>
+      <matter_on> 1 </matter_on>
+      <Q0> 2.0 </Q0>
+      <T0> 0.16 </T0>
+      <in_vac> 0 </in_vac>
+      <vir_factor> 0.25 </vir_factor>
+      <recoil_on> 1 </recoil_on>
+      <broadening_on> 0 </broadening_on>
+      <brick_med> 0 </brick_med>
+      <brick_length> 5.0 </brick_length>
+      <hydro_Tc> 0.16 </hydro_Tc>
+      <qhat0> -2.0 </qhat0>
+      <alphas>0.30</alphas>
+    </Matter>
+
+    <Martini>
+      <name > Martini </name>
+      <Q0> 2.0 </Q0>
+      <alpha_s> 0.3 </alpha_s>
+      <pcut> 1.0 </pcut>
+      <hydro_Tc> 0.16 </hydro_Tc>
+      <recoil_on> 1 </recoil_on>
+      <run_alphas>1</run_alphas>
+      <path>../src/jet/Martini/</path>
+    </Martini>
+  </Eloss>
+  
+  <!-- Jet Hadronization Module -->
+  <JetHadronization>
+    <name>colorless</name>
+    <take_recoil>1</take_recoil>
+    <eCMforHadronization>100.0</eCMforHadronization>
+  </JetHadronization>
+  
+</jetscape>
