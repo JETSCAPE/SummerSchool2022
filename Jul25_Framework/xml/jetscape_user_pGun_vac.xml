@@ -4,7 +4,7 @@
   
   <nEvents> 200 </nEvents>
   
-  <outputFilename>test_out_pGun_PP</outputFilename>
+  <outputFilename>test_out_pGun_vac</outputFilename>
   <JetScapeWriterAscii> on </JetScapeWriterAscii>
   <JetScapeWriterFinalStateHadronsAscii> on </JetScapeWriterFinalStateHadronsAscii>
   <JetScapeWriterFinalStatePartonsAscii> on </JetScapeWriterFinalStatePartonsAscii>
