@@ -1,6 +1,7 @@
 # JSSS2022 Hydro Session
 
 # Table of contents
+
 - **Part I. Introduction**
   - i. Background
   - ii. Goals
@@ -17,9 +18,11 @@
   - Exercise 2. Plot results from MUSIC and understand hydro evolution
   - Exercise 3. Plot flow velocity evolution and see effects from shear viscosity
   - Exercise 4. Plot particles mean $p_T$ and see effects from bulk viscosity
-
+  - Exercise 5. Play with JETSCAPE widget and see how observables response to different parameters
+  
 - **Homework**
-  - Temperature dependent $(\eta/s)(T)$ and $(\zeta/s)(T)$
+  - 1. Temperature dependent $(\eta/s)(T)$ and $(\zeta/s)(T)$
+  - 2. (3+1)-dimensional simulation
 
 # Part I. Introduction 
 
@@ -504,9 +507,13 @@ We use the following parameters for `MUSIC` in `config/jetscape_user_exercise_4.
 
 Here we set a very small but nonzero value for `<shear_viscosity_eta_over_s>`, because in the default settings of JETSCAPE, making it smaller than `1.e-6` would make `Viscosity_Flag_Yes_1_No_0=0` and thus turn off bulk viscosity as well. However, in this exercise, we would like to have nonzero bulk viscosity but not shear viscosity.
 
+## Exercise 5. Play with JETSCAPE widget and see how observables response to different parameters
+
+Open [JETSCAPE widget](http://jetscape.org/sims-widget/) and have fun!
+
 # Homework
 
-## Temperature dependent $(\eta/s)(T)$ and $(\zeta/s)(T)$
+## 1. Temperature dependent $(\eta/s)(T)$ and $(\zeta/s)(T)$
 
 For the homework, we will use user XML file `hydro_session/config/jetscape_user_homework.xml`. In this file, one can try a temperature-dependent $(\eta/s)(T)$ by setting the variable `<T_dependent_Shear_to_S_ratio>` to `3`. Once this parameter is set to 3, the previous parameter `<shear_viscosity_eta_over_s>` will be ineffective. The users need to further specify the following four parameters,
 
@@ -546,3 +553,28 @@ The parametrization of shear and bulk viscosities in `jetscape_user_homework.xml
 <img src="plots/plot_TempVis_vis.png" alt="4" width="600"/> 
 
 The plotting scripts used in the above exercises can be adapted to plot the results (as an example, see `hydro_session/jupyter/homework_hydro_movie.ipynb`). You can pick your favorite collision system (colliding nuclei, collision energy, and centrality) and generate a hydrodynamic evolution animation. 
+
+## 2. (3+1)-dimensional simulation
+
+You can set up grid points in the longitudinal direction and a few parameters for the longitudinal profiles of `Trento`. Below are the relavant parameters in the master XML file.
+
+```xml
+  <!-- Inital State Module  -->
+  <IS>
+    <!-- longitudinal range [-grid_max_z, grid_max_z]-->
+    <!-- in units of [fm] -->
+    <grid_max_z> 0.2 </grid_max_z>
+    <grid_step_z> 0.2 </grid_step_z>
+    
+    <Trento>
+    <LongiInputs  mean-coeff="1.0"
+            std-coeff="3.0"
+            skew-coeff="0.0"
+            skew-type="1"
+            jacobian="0.8">
+    </LongiInputs>
+    </Trento>
+  </IS>
+```
+
+Take a look at the document of `Trento3D` ([Link](https://github.com/Duke-QCD/trento3d)) and try to tune these parameters, then modify the Jupyter notebook for our first exercise; see if you can plot pseudo-rapidity distribution of charged particle multiplicity and rapidity distributions of identified particles.
