@@ -207,7 +207,9 @@ export TRANSPORT_FOLDER="../../SummerSchool2022/Jul28_Transport/"
 python ${TRANSPORT_FOLDER}/quick_mul_count.py p,π⁻,K⁺ ${TRANSPORT_FOLDER}/dummy_config.yaml  smash_output/particles_binary.bin
 ```
 
-**Answer**: What hadron species dominate the medium? Note that the three given species are already the most abundant stable hadrons, as they are the lightest stable non-strange meson, strange meson, and non-strange baryon.
+**Question 1**: What hadron species dominate the medium? Note that the three given species are already the most abundant stable hadrons, as they are the lightest stable non-strange meson, strange meson, and non-strange baryon.
+
+> You find the answers to the questions below to check yourself.
 
 #### Analysis of the pT of final hadrons
 
@@ -225,7 +227,7 @@ We can a have first look at the results, by plotting them as follows:
 
 You find a `pt_spectra.pdf` and a `pt_avg.pdf` plot in the build directory of JETSCAPE. Open them and have a look.
 
-**Answer**: Can you speculate, based on looking at the spectra, how the mean transverse mass has to be ordered for the different species? If yes, how?
+**Question 2**: Can you guess, based on looking at the spectra, how the mean transverse mass has to be ordered for the different species? If yes, how?
 
 
 #### Run SMASH without rescattering and with only decays
@@ -275,7 +277,9 @@ python ${TRANSPORT_FOLDER}/anl_pt.py p,π⁻,K⁺ smash_output/particles_binary.
 python ${TRANSPORT_FOLDER}/plot_pt.py results_with_rescatt,results_wo_rescatt ${TRANSPORT_FOLDER}/dummy_config.yaml
 ```
 
-First, look at the pT spectra plot. **Answer**: Even though the statistics is limited, can you notice someting particular about the shape of the spectra? Can you confirm you observation with the mean pT plot?
+First, look at the pT spectra plot.
+
+**Question 3**: Even though the statistics is limited, can you notice someting particular about the shape of the spectra? Can you confirm you observation with the mean pT plot?
 
 
 #### Investigate the scattering of protons
@@ -296,3 +300,25 @@ For this, take a look at the script and modify it according to your idea. Hint: 
 If you are not familiar with python, you can also tell us about your idea and we can try to help you implement it.
 
 This last step of the hands-on is on purpose more of an open question for you to explore. We are interested to learn your ideas.
+
+***
+
+## Answers to Questions
+
+<details><summary><b>1. What hadron species dominates the medium? </b></summary>
+<p>
+Pions
+</p>
+</details>
+
+<details><summary><b>2. Can you guess, based on looking at the spectra, how the mean transverse mass has to be ordered for the different species?</b></summary>
+<p>
+Higher mean transverse mass leads to flatter spectra.
+</p>
+</details>
+
+<details><summary><b>3. How is the shape of the spectra effected by the rescattering? Can you confirm you observation with the mean pT plot?</b></summary>
+<p>
+Mean pT increases by around 30% due to the afterburner rescattering stage. This leads to a flattening of the proton sepctrum. 
+</p>
+</details>
