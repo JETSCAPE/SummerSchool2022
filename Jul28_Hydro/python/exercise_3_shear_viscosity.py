@@ -59,7 +59,7 @@ results_path = os.path.dirname(working_path)
 # In[4]:
 
 
-plots_path = path.join(os.path.dirname(working_path), "plots")
+plots_path = path.join(working_path, "hydro_session", "plots")
 
 
 # In[5]:
@@ -83,12 +83,12 @@ labels=[r"$\eta/s = 0.$", r"$\eta/s = 0.15$"]
 
 
 # load the data table(s)
-data1 = loadtxt(path.join(results_path, RunFolder1, "momentum_anisotropy_eta_-0.5_0.5.dat"))
-data2 = loadtxt(path.join(results_path, RunFolder2, "momentum_anisotropy_eta_-0.5_0.5.dat"))
-ecc_data1 = loadtxt(path.join(results_path, RunFolder1, "eccentricities_evo_eta_-0.5_0.5.dat"))
-ecc_data2 = loadtxt(path.join(results_path, RunFolder2, "eccentricities_evo_eta_-0.5_0.5.dat"))
-Re_data1 = loadtxt(path.join(results_path, RunFolder1, "inverse_Reynolds_number_eta_-0.5_0.5.dat"))
-Re_data2 = loadtxt(path.join(results_path, RunFolder2, "inverse_Reynolds_number_eta_-0.5_0.5.dat"))
+data1 = loadtxt(path.join(working_path, "hydro_session", RunFolder1, "momentum_anisotropy_eta_-0.5_0.5.dat"))
+data2 = loadtxt(path.join(working_path, "hydro_session", RunFolder2, "momentum_anisotropy_eta_-0.5_0.5.dat"))
+ecc_data1 = loadtxt(path.join(working_path, "hydro_session", RunFolder1, "eccentricities_evo_eta_-0.5_0.5.dat"))
+ecc_data2 = loadtxt(path.join(working_path, "hydro_session", RunFolder2, "eccentricities_evo_eta_-0.5_0.5.dat"))
+Re_data1 = loadtxt(path.join(working_path, "hydro_session", RunFolder1, "inverse_Reynolds_number_eta_-0.5_0.5.dat"))
+Re_data2 = loadtxt(path.join(working_path, "hydro_session", RunFolder2, "inverse_Reynolds_number_eta_-0.5_0.5.dat"))
 
 
 # ## Averaged temperature evolution as a function of $\tau$

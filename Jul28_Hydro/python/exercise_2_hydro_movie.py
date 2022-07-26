@@ -62,13 +62,12 @@ my_cmap = mpl.colors.LinearSegmentedColormap.from_list('my_colormap', colors)
 # In[4]:
 
 
-results_path = os.path.dirname(working_path)
-
+results_path = path.join(working_path, "hydro_session")
 
 # In[5]:
 
 
-plots_path = path.join(os.path.dirname(working_path), "plots")
+plots_path = path.join(working_path, "hydro_session", "plots")
 
 
 # In[6]:

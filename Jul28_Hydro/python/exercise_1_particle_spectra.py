@@ -54,8 +54,8 @@ EPS = 1e-16  # a small number
 
 
 working_path = os.getcwd()
-results_path = os.path.dirname(working_path)
-plots_path = path.join(os.path.dirname(working_path), "plots")
+results_path = path.join(working_path, "hydro_session")
+plots_path = path.join(working_path, "hydro_session", "plots")
 exercise_path = "run_exercise_1"
 
 

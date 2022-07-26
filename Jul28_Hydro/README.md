@@ -202,6 +202,8 @@ which moves all the hydro output into `hydro_session/<folder_name>`. See below f
 
 > Note: We will be running the following command lines in directory: `JETSCAPE/build`
 
+> If you don't use Jupyter Notebook, you can run python scripts in `hydro_session/python` folder under `build/` directory to make the plots.
+
 Launch jupyter notebook **inside the docker container** with the following command in our working directory`JETSCAPE/build`
 
 ```shell
@@ -351,6 +353,12 @@ In  `JETSCAPE/build` directory, run the following scripts
 The last line above create a folder `run_exercise_1` and moves all results there. After it's done, you should find a folder `hydro_session/run_exercise_1` which has all the results of this event inside. 
 
 With the produced `hadron_list.dat` file, the users can apply the analysis script to compute particle spectra, mean $p_T$. In your browser, we first go into the `hydro_session` folder, and then open the notebook `exercise_1_particle_spectra.ipynb` by clicking on it. Once the notebook is open, the user can execute the cells in this notebook. Press `shift+enter` to execute the cell blocks in the notebook. 
+
+If you don't use Jupyter Notebook, please run the following line under `build/` directory instead
+
+```shell
+python ./hydro_session/python/exercise_1_particle_spectra.py
+```
 
 ### More about settings and output files
 
