@@ -29,14 +29,6 @@ JETSCAPE		STAT			SummerSchool2022
 
 Note that the following examples assume that `jetscape-docker` is placed in the home directory (`~`). If you placed it in a different directory, substitute the path accordingly in the following.
 
-Just in case, update your Summer School folder:
-
-```bash
-cd SummerSchool2022
-git pull origin main
-cd -
-```
-
 To perform hydro calculations, we also need to download a hydro ( music ) and a particlization ( iSS ) package. In fact, in the previous hydro session, you should have already downloaded both by running from within `jetscape-docker`
 
 ```
@@ -49,17 +41,23 @@ You can check that `ls` shows a `music` and `iSS` directory, among others.
 
 #### Starting the docker container
 
-As you have probably already done the above, the first step you need to do for the hands-on is to start a new docker container `JSSMASH` for this hands-on session in the usual way:
+Just in case, update your Summer School folder before doing anything else:
+
+```bash
+cd SummerSchool2022
+git pull origin main
+cd -
+```
+
+The first step you need to do for this hands-on is to start a new docker container `JSSMASH` for this hands-on session in the usual way:
 
 ```
 docker run -it -v ~/jetscape-docker:/home/jetscape-user --name JSSMASH jetscape/base:stable
 ```
 
-> You also should be able to use the school's myJetscape or the previous session's JSHYDRO container by restarting them with `docker start -ai myJetscape` or `docker start -ai JSHYDRO`
-
 #### Downloading SMASH
 
-To perform afterburner calculations within JETSCAPE, we now download SMASH from within the container:
+To perform afterburner calculations with JETSCAPE, we now download SMASH from within the container:
 
 ```
 cd JETSCAPE/external_packages/
@@ -125,7 +123,7 @@ As usual for JETSCAPE modules, you can configure properties of the module in the
 * The `particles.txt` file lists all possible degrees of freedom (i.e. hadrons) with their properties (as a side note, this can be also useful for looking up the PDG number of particles).
 * The `decaymodes.txt` file lists the possible decays of resonances in SMASH.
 
-The last two files can be freely edited without recompiling the code, even though we will not do this today. This is useful, for example, when you want to study resonance production and want to vary branching ratios of decays into a given resonance, or of decays of a given resonance.
+The last two files can be freely edited without recompiling the code, even though we will not do this today. This is useful, for example, when you want to study resonance production and dynamics, since are able to vary branching ratios of decays for a given resonance, add or remove decaymodes or limit your calculation to certain species.
 
 
 #### Output
@@ -143,7 +141,7 @@ particles_binary.bin
 
 The OSCAR format (`*.oscar` files) is a human-readable text output, while the binary format (`*.bin` files) is a smaller binary output that is not human-readable. Both contain the same information. If your calculation is already finished, you can go ahead and open the two OSCAR files in `~/JETSCAPE/build/smash_output` yourself. If not, you can just read on and look at the examples below.
 
-If you open the `particle_lists.oscar` file, it looks like the excerpt shown below. The first line tells you what each value means (first value = t, second value = x and so on). Here, you get a list of all final hadrons for each event. It is also possible to print out the list of hadrons at specified points during the simulation, but we will not use this today.
+If you open the `particle_lists.oscar` file, it looks like the excerpt shown below. The first line tells you what each value means (first value = t, second value = x and so on). Here, you get a list of all final hadrons for each event. It is also possible to print out the list of hadrons at specified times during the simulation, but we will not use this today.
 
 ```
 #!OSCAR2013 particle_lists t x y z mass p0 px py pz pdg ID charge
@@ -159,7 +157,7 @@ If you open the `particle_lists.oscar` file, it looks like the excerpt shown bel
 (...)
 ```
 
-The `full_event_history.oscar` file looks like the excerpt shown below. The lines containing information on interacting particles have the same structure as in the above example `particle_lists.oscar` file, but they are separated into individual interaction sections that show which particles have interacted and how. Below you see two t2 decays (`1 out 2`) and one resonance formation (`2 out 1`). The file includes the full record of all interactions for each event.
+The `full_event_history.oscar` file looks like the excerpt shown below. The lines containing information on interacting particles have the same structure as in `particle_lists.oscar` file shown above, but they are separated into individual interaction sections that show which particles have interacted and how. Below you see two decays (`1 out 2`) and one resonance formation (`2 out 1`) for example. The file includes the full record of all interactions for each event.
 
 ```
 #!OSCAR2013 full_event_history t x y z mass p0 px py pz pdg ID charge
@@ -180,12 +178,12 @@ The `full_event_history.oscar` file looks like the excerpt shown below. The line
 (...)
 ```
 
-> Sidenote: There are also more specialized SMASH outputs like HepMC or a thermodynamic output, as you can see [in the Output section of the User guide](http://theory.gsi.de/~smash/userguide/2.2/output_general_.html).
+> Sidenote: There are also more specialized SMASH outputs like HepMC or a thermodynamic output. you can find more details [in the Output section of the User guide](http://theory.gsi.de/~smash/userguide/2.2/output_general_.html).
 
 
 ##### JETSCAPE output
 
-The official JETSCAPE output `test_out.dat` contains the same information as the particle lists output. Open the `test_out.dat` file and look for the section with the heading `# JetScape module: SMASH`. In this hands-on, we will use the SMASH binary output, which is convenient as we can use existing analysis script infrastrcuture from the SMASH Analysis Suite, [also available on Github](https://github.com/smash-transport/smash-analysis). You could recreate the following pT analysis just as well with the `test_out.dat` file (or the SMASH OSCAR output). For an analysis of the scattering history you always need to turn to the collision output of SMASH.
+The official JETSCAPE output `test_out.dat` contains the same information as the particle lists output. Open the `test_out.dat` file and look for the section with the heading `# JetScape module: SMASH`. In this hands-on, we will use the SMASH binary output, which is convenient as we can use existing analysis script infrastructure from the SMASH Analysis Suite, [also available on Github](https://github.com/smash-transport/smash-analysis). You could recreate the following pT analysis just as well with the `test_out.dat` file (or the SMASH OSCAR output). For an analysis of the scattering history you always need to turn to the collision output of SMASH.
 
 
 ## 3) Effect of a afterburner rescattering stage
@@ -198,7 +196,8 @@ To illustrate one of the effects that rescattering has on the final observable h
 ```sh
 cd ~/JETSCAPE/build
 
-# Let's set the transport school folder for convienence
+# Let's set the transport school folder for convenience, the whole section assume this variable to be set
+# if you stop your container in between, you need to reset it
 export TRANSPORT_FOLDER="../../SummerSchool2022/Jul28_Transport/"
 
 # As a first simple example analysis, we output the particle multiplicities per event of given species of
@@ -207,7 +206,7 @@ export TRANSPORT_FOLDER="../../SummerSchool2022/Jul28_Transport/"
 python ${TRANSPORT_FOLDER}/quick_mul_count.py p,π⁻,K⁺ ${TRANSPORT_FOLDER}/dummy_config.yaml  smash_output/particles_binary.bin
 ```
 
-**Question 1**: What hadron species dominate the medium? Note that the three given species are already the most abundant stable hadrons, as they are the lightest stable non-strange meson, strange meson, and non-strange baryon.
+**Question 1**: What hadron species dominate the medium? Note that the three given species are already contain  the most abundant stable hadrons, as they are the lightest stable non-strange meson, strange meson, and non-strange baryon.
 
 > You find the answers to the questions below to check yourself.
 
@@ -216,23 +215,22 @@ python ${TRANSPORT_FOLDER}/quick_mul_count.py p,π⁻,K⁺ ${TRANSPORT_FOLDER}/d
 ```sh
 python ${TRANSPORT_FOLDER}/anl_pt.py p,π⁻,K⁺ smash_output/particles_binary.bin results_with_rescatt ${TRANSPORT_FOLDER}/dummy_config.yaml
 ```
-This script outputs the average pT value of the given particle species to the command line (the numbers are the integer pdg values of the particles) and you should find in the directory `results_with_rescatt` analysis output files for the pT of each species which has the average pT value and a pT histogram in it.
+This script outputs the average pT value of the given particle species to the command line (the numbers are the integer pdg values of the particles). You should also find analysis output files for the pT of each species in the directory `results_with_rescatt`. Those files have the average pT value and a pT histogram in it.
 
 We can a have first look at the results, by plotting them as follows:
 
 ```sh
  python ${TRANSPORT_FOLDER}/plot_pt.py results_with_rescatt ${TRANSPORT_FOLDER}/dummy_config.yaml
-
 ```
 
 You find a `pt_spectra.pdf` and a `pt_avg.pdf` plot in the build directory of JETSCAPE. Open them and have a look.
 
-**Question 2**: Can you guess, based on looking at the spectra, how the mean transverse mass has to be ordered for the different species? If yes, how?
+**Question 2**: Can you deduce, based on looking at the spectra, how the mean transverse mass has to be ordered for the different species? For example, which species has to have the largest mean pT? If yes, how?
 
 
 #### Run SMASH without rescattering and with only decays
 
-As we want to see the effect of the afterburner, we need a calculation to compare with that does not inlcude the effects due to rescattering.
+As we want to see the effect of the afterburner, we need a calculation to compare with that does not include rescattering.
 
 For this, we first save our previous SMASH output for later, as otherwise it will get overwritten by the new calculation:
 
@@ -241,7 +239,7 @@ mkdir smash_output_with_rescatt
 cp smash_output/* smash_output_with_rescatt/
 ```
 
-To disable all hadron collisions and only allow decays within SMASH, we change the used config file, which can be found here: `~/SummerSchool2022/Jul28_Transport/smash_config.yaml`. If you are motivated, you can search for the right option yourself [SMASH user guide](http://theory.gsi.de/~smash/userguide/current/). Hint: Click on the arrow to expand Input, then Configuration, and then click on Collision Term. Look for the relevant option there.
+To disable all hadron collisions and only allow decays within SMASH, we change the used config file `~/SummerSchool2022/Jul28_Transport/smash_config.yaml` again. If you are motivated, you can search for the right option yourself in the [SMASH user guide](http://theory.gsi.de/~smash/userguide/current/). Hint: Click on the arrow to expand Input, then Configuration, and then click on Collision Term. Look for the relevant option there.
 
 <details><summary><b> Click for Solution </b></summary>
 <p>
@@ -261,9 +259,9 @@ Re-run SMASH after changing the config by again executing
 ./runJetscape ../../SummerSchool2022/Jul28_Transport/jetscape_user_smash.xml
 ```
 
-It will run much faster this time as no collisions are happening.
+It will run faster this time as no collisions are happening.
 
-> Note that running SMASH in such a setup is equivalent to just having a particlization module like ISS and letting it take care of the resonance decays. Moreover, for this specific setting, there is also a option in the JETSCAPE xml that achieves the same: for this one would set `<only_decays> 1 </only_decays>` in the <SMASH> section. As you will change the xml throughout the school frequently, the exercises here are for you to get familiar with changing the SMASH config as well.
+> Note that running SMASH in such a setup is equivalent to just having a particlization module like ISS and letting it take care of the resonance decays. Moreover, for this specific setting, there is also an option in the JETSCAPE xml that achieves the same: one would set `<only_decays> 1 </only_decays>` in the <SMASH> section. As you will change the xml throughout the school frequently, the exercises, the idea here is for you to get familiar with changing the SMASH config as well.
 
 #### Comparing the pT spectra with and without rescattering stage
 
@@ -279,24 +277,25 @@ python ${TRANSPORT_FOLDER}/plot_pt.py results_with_rescatt,results_wo_rescatt ${
 
 First, look at the pT spectra plot.
 
-**Question 3**: Even though the statistics is limited, can you notice someting particular about the shape of the spectra? Can you confirm you observation with the mean pT plot?
+**Question 3**: Can you notice something particular about the shape of the spectra (even though the statistics is limited)? Can you confirm you observation with the mean pT plot?
 
 
 #### Investigate the scattering of protons
 
-To see how the transverse momentum of protons is affected in the late rescattering stage, we can look at the microscopic scattering history of protons in this phase.
+To see how the transverse momentum of protons is modified in the late rescattering stage, we can look at the microscopic scattering history of protons in this phase.
 
-To do that, we can analyze the collision output of the first calculation we ran today with SMASH. As a starting point, you can run the script `anl_proton_reactions.py`, which will print out all proton reaction partners in the different events as well as the number of total proton reactions.
+To do that, we can analyze the collision output of the first calculation (with rescattering) we ran. As a starting point, you can run the script `anl_proton_reactions.py` as shown below, which will print out all proton reaction partners in the different events as well as the number of total proton reactions.
 
 ```sh
 python ${TRANSPORT_FOLDER}/anl_proton_reactions.py smash_output_with_rescatt/collisions_binary.bin
 ```
 
-The numbers printed out are pdg numbers, which you can again translate using the particles.txt file in the `SummerSchool2022/Jul28_Transport` directory.
+The numbers printed out are pdg numbers, which you can again translate using the `particles.txt` file in the `~/SummerSchool2022/Jul28_Transport` directory.
 
 Simply printing out the scattering partner pdgs is surely not very useful. Therefore, as the last part of this hands-on, it is your turn to investigate the scatterings of the protons a bit more. Think yourself how you could investigate the proton scatterings to learn more about what influences them, and in what way.
 
-For this, take a look at the script and modify it according to your idea. Hint: Some properties of the scattering are already extracted but not yet used in the script. For example, you could count how often the proton scatters with a certain particle species, what type of scatterings occur, or what the outgoing products of the scatterings are.
+For this, take a look at the script and modify it according to your idea. Hint: Some properties of the scattering are already extracted but not yet used in the script. For example, you could count how often the proton scatters with a certain particle species, what type of scatterings occur most often, or what the outgoing products of the scatterings are.
+
 If you are not familiar with python, you can also tell us about your idea and we can try to help you implement it.
 
 This last step of the hands-on is on purpose more of an open question for you to explore. We are interested to learn your ideas.
@@ -319,6 +318,6 @@ Higher mean transverse mass leads to flatter spectra.
 
 <details><summary><b>3. How is the shape of the spectra effected by the rescattering? Can you confirm you observation with the mean pT plot?</b></summary>
 <p>
-Mean pT increases by around 30% due to the afterburner rescattering stage. This leads to a flattening of the proton sepctrum. 
+**Main result of this session: Mean pT of protons increases significantly (by around 30%) due to the afterburner rescattering stage.** This can also be seen as a flattening of the proton pT spectrum.
 </p>
 </details>
