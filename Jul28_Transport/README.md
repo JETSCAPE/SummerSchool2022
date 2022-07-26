@@ -119,7 +119,7 @@ cd ~/JETSCAPE/build
 ./runJetscape ../../SummerSchool2022/Jul28_Transport/jetscape_user_smash.xml
 ```
 
-While the calculation is running (it will take around 20 minutes), we have a look at the input, configuration, and output of SMASH. (NOTE: We have notices that the calculation takes a CONSIDERABLY longer time for new Macs with Apple M1 chip: around 8 hours! NOTE: This is an artifact of using Docker on Apple M1 machines. The Apple M1 chip is very fast and ordinarily, SMASH runs very fast on new Macs.)
+While the calculation is running (it will take around 20 minutes), we have a look at the input, configuration, and output of SMASH. (NOTE: We noticed that this calculation takes a CONSIDERABLY longer time for new Macs with the Apple M1 chip: around 8 hours! NOTE: This is an artifact of using Docker on Apple M1 machines. The Apple M1 chip is very fast and ordinarily, SMASH runs very fast on new Macs.)
 
 > Note: You will see some warnings like `[Warning] bool Jetscape::Hadron::CheckOrForceHadron(int, double) ...`. You do not need to worry about them.
 
