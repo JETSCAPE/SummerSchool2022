@@ -5,7 +5,9 @@
 2. Understand SMASH's inputs and outputs
 3. Learn how the afterburner affects the resulting spectra
 
-It is strongly advised that you follow the instructions of section 1) before the hands-on session itself. This is because these instructions take a considerable time to compile and run.
+It is strongly advised that you follow the instructions of section 1) before the hands-on session itself, as discussed also at the end of the transport lecture. This is because these instructions take a considerable time to compile and run.
+
+If you already have done section 1), you can restart the container for this session by running `docker start -ai JSSMASH` and continue with the hands-on.
 
 #### Background and more information on SMASH
 
@@ -18,7 +20,7 @@ Beyond the webpage, you can find more information on SMASH in the [Github reposi
 
 #### Already done?
 
-The following instructions assume that you have followed the initial steps from the [school's main README](../README). You should have cloned the JETSCAPE and SummerSchool2022 repository in a directory called `jetscape-docker`. So when you run `ls` inside this directory, it looks like this:
+The following instructions assume that you have followed the initial steps from the [school's main README](https://github.com/JETSCAPE/SummerSchool2022/blob/main/README.md). You should have cloned the JETSCAPE and SummerSchool2022 repository in a directory called `jetscape-docker`. So when you run `ls` inside this directory, it looks like this:
 
 ```bash
 ~/jetscape-docker $ ls
@@ -47,13 +49,13 @@ You can check that `ls` shows a `music` and `iSS` directory, among others.
 
 #### Starting the docker container
 
-Before we download and compile SMASH, we start a docker container in the usual way:
+As you have probably already done the above, the first step you need to do for the hands-on is to start a new docker container `JSSMASH` for this hands-on session in the usual way:
 
 ```
-docker run -it -v ~/code/SummerSchool2022-test-dir/jetscape-docker:/home/jetscape-user --name JSSMASH jetscape/base:stable
+docker run -it -v ~/jetscape-docker:/home/jetscape-user --name JSSMASH jetscape/base:stable
 ```
 
-> You should be able to restart the school's myJetscape or the previous session's JSHYDRO container by running `docker start -ai myJetscape` or `docker start -ai JSHYDRO`
+> You also should be able to use the school's myJetscape or the previous session's JSHYDRO container by restarting them with `docker start -ai myJetscape` or `docker start -ai JSHYDRO`
 
 #### Downloading SMASH
 
@@ -64,7 +66,7 @@ cd JETSCAPE/external_packages/
 ./get_smash.sh
 ```
 
-The getter script not only clones SMASH, but also takes care of compiling it as a shared library for JETSCAPE. On my Macbook from 2018 with 4 docker cores, this took about **4 mins**.
+This getter script not only clones SMASH, but also takes care of compiling it as a shared library for JETSCAPE. On my Macbook from 2018 with 4 docker cores, this took about **4 mins**.
 
 #### Compiling JETSCAPE with SMASH
 
@@ -91,26 +93,27 @@ mkdir smash_output
 
 Note: SMASH will only write to its own output (in addition to the JETSCAPE output) if this directory exists.
 
-To produce the collision output, you have to add it the SMASH config file. Look for output section in the `smash_config.yaml` file in the `Jul28_Transport` directory. Add a `Collisions` section in the same way a particles section is already there. In the end, the section should look like below. Be careful that the indentation is the same everywhere.
+To produce the collision output, you have to modify the SMASH config file. Open the `smash_config.yaml` file in the `~/SummerSchool2022/Jul28_Transport` directory. As shown below, search for the `Output` section and add a `Collisions` output section to the `Particles` output that is already there. In the end, the `Output` section should look like below. Be careful that the indentation is the same everywhere.
 
-```
+```yaml
 Output:
     Output_Interval:  5.0
     Particles:
         Format:          ["Oscar2013", "Binary"]
     Collisions:
         Format:          ["Oscar2013", "Binary"]
-
 ```
 
 Now, you can start the JETSCAPE run with SMASH:
 
 ```
+cd ~/JETSCAPE/build
 ./runJetscape ../../SummerSchool2022/Jul28_Transport/jetscape_user_smash.xml
 ```
 
-
 While the calculation is running (it will take around 20 minutes), we have a look at the input, configuration, and output of SMASH.
+
+> Note: You will see some warnings like `[Warning] bool Jetscape::Hadron::CheckOrForceHadron(int, double) ...`. You do not need to worry about them.
 
 ## 2) Input and output files of SMASH
 
@@ -177,16 +180,15 @@ The `full_event_history.oscar` file looks like the excerpt shown below. The line
 (...)
 ```
 
-> Sidenote: There are also more specialized SMASH outputs, as you can see [in the Output section of the User guide](http://theory.gsi.de/~smash/userguide/2.2/output_general_.html).
+> Sidenote: There are also more specialized SMASH outputs like HepMC or a thermodynamic output, as you can see [in the Output section of the User guide](http://theory.gsi.de/~smash/userguide/2.2/output_general_.html).
 
 
 ##### JETSCAPE output
 
-The official JETSCAPE output `test_out.dat` contains the same information as the particle lists output. In the `# JetScape module: SMASH` section ~~~~~~~~~~DO WHAT?????~~~~~~~~. In this hands-on, we use the SMASH binary output, which is convenient as we can use an existing analysis script from the SMASH Analysis Suite, [also available on Github](https://github.com/smash-transport/smash-analysis). You could recreate the following pT analysis just as well with the `test_out.dat` file. On the other hand, for an analysis of the scattering history you always need to turn to the collision output of SMASH.
+The official JETSCAPE output `test_out.dat` contains the same information as the particle lists output. Open the `test_out.dat` file and look for the section with the heading `# JetScape module: SMASH`. In this hands-on, we will use the SMASH binary output, which is convenient as we can use existing analysis script infrastrcuture from the SMASH Analysis Suite, [also available on Github](https://github.com/smash-transport/smash-analysis). You could recreate the following pT analysis just as well with the `test_out.dat` file (or the SMASH OSCAR output). For an analysis of the scattering history you always need to turn to the collision output of SMASH.
 
 
 ## 3) Effect of a afterburner rescattering stage
-
 
 To illustrate one of the effects that rescattering has on the final observable hadrons, in this session we focus on the transverse momentum spectra (pT) and, later, analyze the collision history. For this, we first have to analyze the particles output and create the spectra. Follow the instructions below in the command line to produce them.
 
@@ -290,7 +292,7 @@ The numbers printed out are pdg numbers, which you can again translate using the
 
 Simply printing out the scattering partner pdgs is surely not very useful. Therefore, as the last part of this hands-on, it is your turn to investigate the scatterings of the protons a bit more. Think yourself how you could investigate the proton scatterings to learn more about what influences them, and in what way.
 
-For this, take a look at the script and modify it according to your idea. Hint: Some properties of the scattering are already extracted but not yet used in the script. For example, you could count how often the proton scatters with a certain particle species, what type of scatterings occur, or what the outgoing products of the scatterings are. 
+For this, take a look at the script and modify it according to your idea. Hint: Some properties of the scattering are already extracted but not yet used in the script. For example, you could count how often the proton scatters with a certain particle species, what type of scatterings occur, or what the outgoing products of the scatterings are.
 If you are not familiar with python, you can also tell us about your idea and we can try to help you implement it.
 
 This last step of the hands-on is on purpose more of an open question for you to explore. We are interested to learn your ideas.
