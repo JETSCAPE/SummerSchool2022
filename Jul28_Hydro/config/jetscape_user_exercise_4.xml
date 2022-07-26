@@ -34,15 +34,24 @@
 
     <!--Preequilibrium Dynamics Module -->
     <Preequilibrium>
-        <NullPreDynamics> </NullPreDynamics>
+        <!-- starting long. proper time for Preequilibrium dynamics -->
+        <tau0>0.1</tau0>
+        <!-- switching long. proper time from Preequilibrium dynamics to Hydrodynamics (Landau Matching) -->
+        <taus>0.2</taus>
+        
+        <!-- Individual Preequilibrium Dynamics models  -->
+        <FreestreamMilne>
+          <name>FreestreamMilne</name>
+          <freestream_input_file>freestream_input</freestream_input_file>
+        </FreestreamMilne>
     </Preequilibrium>
 
     <!-- Hydro  Module  -->
     <Hydro>
         <MUSIC>
             <name>MUSIC</name>
-            <shear_viscosity_eta_over_s>1.e-3</shear_viscosity_eta_over_s>
-            <temperature_dependent_bulk_viscosity>9</temperature_dependent_bulk_viscosity>
+            <shear_viscosity_eta_over_s>0.01</shear_viscosity_eta_over_s>
+            <temperature_dependent_bulk_viscosity>1</temperature_dependent_bulk_viscosity>
             <freezeout_temperature>0.150</freezeout_temperature>
         </MUSIC>
     </Hydro>

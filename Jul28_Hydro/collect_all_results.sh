@@ -20,5 +20,6 @@ mv evolution_all_xyeta_MUSIC.dat $folder/ 2> /dev/null
 mv test_out.dat $folder/ 2> /dev/null
 mv hadron_list.dat $folder/ 2> /dev/null
 mv particle_samples.bin $folder/ 2> /dev/null
+mv evolution_all_xyeta_fs.dat $folder/ 2> /dev/null
 
 mv $folder hydro_session/$folder
