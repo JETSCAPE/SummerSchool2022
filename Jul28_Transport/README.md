@@ -121,7 +121,7 @@ cd ~/JETSCAPE/build
 
 While the calculation is running (it will take around 20 minutes), we have a look at the input, configuration, and output of SMASH.
 
-> NOTE: We noticed that this calculation takes a CONSIDERABLY longer time for new Macs with the Apple M1 chip: around 8 hours! This is an artifact of using Docker on Apple M1 machines. The Apple M1 chip is very fast and ordinarily, SMASH runs very fast on new Macs.)
+> NOTE: We noticed that this calculation takes a CONSIDERABLY longer time for new Macs with the Apple M1 chip: around 8 hours! We suspect this is caused by some combination of settings for the JETSCAPE Docker container and the fact that the M1 architecture is unusual, but we haven't had enough time to test this hypothesis and provide a solution. The Apple M1 chip is very fast and ordinarily, SMASH runs very fast on new Macs.)
 
 > Note: You will also see some warnings like `[Warning] bool Jetscape::Hadron::CheckOrForceHadron(int, double) ...`. You do not need to worry about them.
 
@@ -278,7 +278,7 @@ After making the appropriate changes in the config file, run SMASH again by exec
 ./runJetscape ../../SummerSchool2022/Jul28_Transport/jetscape_user_smash.xml
 ```
 
-It will run faster this time as no collisions (which are computationally very expensive) are happening. (NOTE: We noticed that this runs considerably slower on the new Apple machines with the Apple M1 chip. The simulation will take on the order of a couple of hours. NOTE: This is an artifact of using Docker on Apple M1 machines. The Apple M1 chip is very fast and ordinarily, SMASH runs very fast on new Macs.)
+It will run faster this time as no collisions (which are computationally very expensive) are happening. (NOTE: We noticed that this runs considerably slower on the new Apple machines with the Apple M1 chip. The simulation will take about 1 hour. We suspect this is caused by some combination of settings for the JETSCAPE Docker container and the fact that the M1 architecture is unusual, but we haven't had enough time to test this hypothesis and provide a solution. The Apple M1 chip is very fast and ordinarily, SMASH runs very fast on new Macs.)
 
 > Note that running SMASH in such a setup is equivalent to just using a particlization module like ISS after the hydro evolution and letting it take care of the resonance decays. Moreover, for this specific setting, there is also an option in the JETSCAPE xml that achieves the same: one would set `<only_decays> 1 </only_decays>` in the <SMASH> section. As you will change the xml throughout the school exercises frequently, here we want to make that you are also familiar with changing the SMASH config.
 
