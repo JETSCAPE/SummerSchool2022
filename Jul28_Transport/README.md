@@ -1,4 +1,4 @@
-## Hands-on: Hadronic transport approach SMASH
+# Hands-on: Hadronic transport approach SMASH
 
 ### Goals for this session
 1. Learn how to run SMASH within JETSCAPE as a hadronic afterburner
@@ -84,7 +84,7 @@ cmake -DUSE_MUSIC=ON -DUSE_ISS=ON -DUSE_SMASH=ON ..
 make -j4  # builds using 4 cores; adapt as appropriate
 ```
 
-On my Macbook from 2018 with 4 docker cores, this took about **12 mins**. (Note: we noticed that this can take a considerably longer times on new Macs with the Apple M1 chip.) 
+On my Macbook from 2018 with 4 docker cores, this took about **12 mins**. (We noticed that this can take a considerably longer times on new Macs with the Apple M1 chip.)
 
 With this you are set to run JETSCAPE with SMASH.
 
@@ -112,16 +112,18 @@ Output:
         Format:          ["Oscar2013", "Binary"]
 ```
 
-Now, you can start a JETSCAPE simulation with SMASH (from the `build` directory). We will run a Au-Au collision at sqrts = 200 GeV and 0-5% centrality. We will simulate one hydro event, and then we will sample discrete particles from the obtained hydro surface and evolve them within the SMASH afterburner; we will repeat the sampling 25 times, so that in the end we will have 25 hydro+afterburner events. All these options (and others) are specified in the `jetscape_user_smash.xml` file, and we start JETSCAPE by executing 
+Now, you can start a JETSCAPE simulation with SMASH (from the `build` directory). We will run a Au-Au collision at sqrts = 200 GeV and 0-5% centrality. We will simulate one hydro event, and then we will sample discrete particles from the obtained hydro surface and evolve them within the SMASH afterburner; we will repeat the sampling 25 times, so that in the end we will have 25 hydro+afterburner events. All these options (and others) are specified in the `jetscape_user_smash.xml` file, and we start JETSCAPE by executing
 
 ```
 cd ~/JETSCAPE/build
 ./runJetscape ../../SummerSchool2022/Jul28_Transport/jetscape_user_smash.xml
 ```
 
-While the calculation is running (it will take around 20 minutes), we have a look at the input, configuration, and output of SMASH. (NOTE: We noticed that this calculation takes a CONSIDERABLY longer time for new Macs with the Apple M1 chip: around 8 hours! NOTE: This is an artifact of using Docker on Apple M1 machines. The Apple M1 chip is very fast and ordinarily, SMASH runs very fast on new Macs.)
+While the calculation is running (it will take around 20 minutes), we have a look at the input, configuration, and output of SMASH.
 
-> Note: You will see some warnings like `[Warning] bool Jetscape::Hadron::CheckOrForceHadron(int, double) ...`. You do not need to worry about them.
+> NOTE: We noticed that this calculation takes a CONSIDERABLY longer time for new Macs with the Apple M1 chip: around 8 hours! This is an artifact of using Docker on Apple M1 machines. The Apple M1 chip is very fast and ordinarily, SMASH runs very fast on new Macs.)
+
+> Note: You will also see some warnings like `[Warning] bool Jetscape::Hadron::CheckOrForceHadron(int, double) ...`. You do not need to worry about them.
 
 
 
@@ -196,9 +198,7 @@ The `full_event_history.oscar` file looks like the excerpt shown below. The line
 
 ##### JETSCAPE output
 
-The official JETSCAPE output `test_out.dat` contains the same information as the particle lists output. Open the `test_out.dat` file (located in the `build' folder) and look for the section with the heading `# JetScape module: SMASH`. I
-
-n this hands-on we will exclusively use the SMASH binary output. This is convenient as we can use existing analysis script infrastructure from the SMASH Analysis Suite, [available on Github](https://github.com/smash-transport/smash-analysis). You could naturally recreate the following pT analysis just as well with the `test_out.dat` file (or the SMASH OSCAR output). For an analysis of the scattering history, however, you always need to turn to the collision output of SMASH.
+The official JETSCAPE output `test_out.dat` contains the same information as the particle lists output in the section with the heading `# JetScape module: SMASH`. In this hands-on we will exclusively use the SMASH binary output. This is convenient as we can use existing analysis script infrastructure from the SMASH Analysis Suite, [available on Github](https://github.com/smash-transport/smash-analysis). You could naturally recreate the following pT analysis just as well with the `test_out.dat` file (or the SMASH OSCAR output). For an analysis of the scattering history, however, you always need to turn to the collision output of SMASH.
 
 
 ## 3) Effect of the afterburner rescattering stage
@@ -221,7 +221,7 @@ export TRANSPORT_FOLDER="../../SummerSchool2022/Jul28_Transport/"
 python ${TRANSPORT_FOLDER}/quick_mul_count.py p,π⁻,K⁺ ${TRANSPORT_FOLDER}/dummy_config.yaml  smash_output/particles_binary.bin
 ```
 
-**Question 1**: What hadron species dominate the medium? 
+**Question 1**: What hadron species dominate the medium?
 
 Note that the three particle species that we chose to look at already contain the most abundant stable hadrons, as they are the lightest stable non-strange meson, strange meson, and non-strange baryon.
 
@@ -232,15 +232,14 @@ Note that the three particle species that we chose to look at already contain th
 #### Analysis of the pT of final hadrons
 
 ```sh
-python ${TRANSPORT_FOLDER}/anl_pt.py p,π⁻,K⁺ smash_output/particles_binary.bin results_with_rescatt ${TRANSPORT_FOLDER}/dummy_config.yaml
+python ${TRANSPORT_FOLDER}/anl_pt.py p,π⁻,K⁺ smash_output/particles_binary.bin results_with_rescattering ${TRANSPORT_FOLDER}/dummy_config.yaml
 ```
-
-This script outputs the average pT value of the given particle species to the command line (the numbers in the brackets are the integer pdg values of the particles). You should also find analysis output files for the pT of each species in the directory `results_with_rescatt`. Those files have the average pT value and a pT histogram in it.
+This script outputs the average pT value of the given particle species to the command line (the numbers are the integer pdg values of the particles). You should also find analysis output files for the pT of each species in the directory `results_with_rescattering` within `~/JETSCAPE/build`. Those files have the average pT value and a pT histogram in it.
 
 We can a have first look at the results, by plotting them as follows:
 
 ```sh
- python ${TRANSPORT_FOLDER}/plot_pt.py results_with_rescatt ${TRANSPORT_FOLDER}/dummy_config.yaml
+ python ${TRANSPORT_FOLDER}/plot_pt.py results_with_rescattering ${TRANSPORT_FOLDER}/dummy_config.yaml
 ```
 
 You will find a `pt_spectra.pdf` and a `pt_avg.pdf` plot in the `build` directory of JETSCAPE. Open them and have a look.
@@ -290,10 +289,10 @@ With our second run finished, we can plot the comparison, after running the anal
 
 ```sh
 # Analyze results without rescattering
-python ${TRANSPORT_FOLDER}/anl_pt.py p,π⁻,K⁺ smash_output/particles_binary.bin results_wo_rescatt ${TRANSPORT_FOLDER}/dummy_config.yaml
+python ${TRANSPORT_FOLDER}/anl_pt.py p,π⁻,K⁺ smash_output/particles_binary.bin results_wo_rescattering ${TRANSPORT_FOLDER}/dummy_config.yaml
 
 # Plotting a comparison
-python ${TRANSPORT_FOLDER}/plot_pt.py results_with_rescatt,results_wo_rescatt ${TRANSPORT_FOLDER}/dummy_config.yaml
+python ${TRANSPORT_FOLDER}/plot_pt.py results_with_rescattering,results_wo_rescattering ${TRANSPORT_FOLDER}/dummy_config.yaml
 ```
 
 First, look at the pT spectra plot.
@@ -323,7 +322,7 @@ This last step of the hands-on is more of an open question for you to explore. W
 
 ***
 
-## Answers to Questions
+### Answers to Questions to check youeself
 
 <details><summary><b>1. What hadron species dominates the medium? </b></summary>
 <p>
