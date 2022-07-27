@@ -7,11 +7,17 @@
 
 It is strongly advised that you follow the instructions of section 1) before the hands-on session itself, as discussed also at the end of the transport lecture. This is because these instructions take a considerable time to compile and run.
 
-> NOTE: We noticed that the calculations take a considerably longer time (about 25 times longer!) for new Macs with the Apple M1 chip. We suspect this is caused by some combination of settings for the JETSCAPE Docker container and the fact that the M1 architecture is unusual, but we haven't had enough time to test this hypothesis and provide a solution. The Apple M1 chip is very fast and ordinarily, SMASH runs very fast on new Macs. If you work on a machine with the M1 chip, please try to run all calculations before the hands-on session. Don't hesitate to ask for help if needed!  
+> NOTE: We noticed that the calculations take a considerably longer time for new Macs with the Apple M1 chip. We suspect this is caused by some combination of settings for the JETSCAPE Docker container and the fact that the M1 architecture is unusual, but we haven't had enough time to test this hypothesis and provide a solution. The Apple M1 chip is very fast and ordinarily, SMASH runs very fast on new Macs. If you work on a machine with the M1 chip, please try to run all calculations before the hands-on session. Don't hesitate to ask for help if needed! 
 
 If you already have done section 1), you can restart the container for this session by running `docker start -ai JSSMASH` and continue with the hands-on.
 
+Just in case any last-minute changes were made (which is highly likely), update your Summer School folder before doing anything else:
 
+```bash
+cd SummerSchool2022
+git pull origin main
+cd -
+```
 
 #### Background and more information on SMASH
 
@@ -47,20 +53,17 @@ To be sure, you can check that `ls` shows a `music` and `iSS` directory (among o
 
 #### Starting the docker container
 
-Just in case any last-minute changes were made (which is highly likely), update your Summer School folder before doing anything else:
-
-```bash
-cd SummerSchool2022
-git pull origin main
-cd -
-```
-
-The first step you need to do for this hands-on is to start a new docker container `JSSMASH`, which is done in the usual way:
+The first step you need to do for this hands-on is to start a new docker container `JSSMASH`, which is done in the usual way (on macOS):
 
 ```
 docker run -it -v ~/jetscape-docker:/home/jetscape-user --name JSSMASH jetscape/base:stable
 ```
 
+On Windoes, make sure to replace `~/jetscape-docker` with the full path. On Linux, in order to have the correct write permission to e.g. create directories you have to include the command line option `--user $(id -u):$(id -g)`, so the full command is
+
+```
+docker run -it -v ~/jetscape-docker:/home/jetscape-user --user $(id -u):$(id -g)` --name JSSMASH jetscape/base:stable
+```
 
 #### Downloading SMASH
 
@@ -123,7 +126,7 @@ cd ~/JETSCAPE/build
 
 While the calculation is running (it will take around 20 minutes), we have a look at the input, configuration, and output of SMASH.
 
-> NOTE: This calculation takes a CONSIDERABLY longer time for new Macs with the Apple M1 chip: around 8 hours! 
+> NOTE: This calculation takes a CONSIDERABLY longer time for new Macs with the Apple M1 chip: around 8 hours!
 
 > Note: You will also see some warnings like `[Warning] bool Jetscape::Hadron::CheckOrForceHadron(int, double) ...`. You do not need to worry about them.
 
@@ -280,9 +283,9 @@ After making the appropriate changes in the config file, run SMASH again by exec
 ./runJetscape ../../SummerSchool2022/Jul28_Transport/jetscape_user_smash.xml
 ```
 
-It will run faster this time as no collisions (which are computationally very expensive) are happening. 
+It will run faster this time as no collisions (which are computationally very expensive) are happening.
 
-> This calculation takes a CONSIDERABLY longer time for new Macs with the Apple M1 chip: around 1 hour! 
+> This calculation takes a CONSIDERABLY longer time for new Macs with the Apple M1 chip: around 1 hour!
 
 > Note that running SMASH in such a setup is equivalent to just using a particlization module like ISS after the hydro evolution and letting it take care of the resonance decays. Moreover, for this specific setting, there is also an option in the JETSCAPE xml that achieves the same: one would set `<only_decays> 1 </only_decays>` in the <SMASH> section. As you will change the xml throughout the school exercises frequently, here we want to make that you are also familiar with changing the SMASH config.
 
@@ -326,7 +329,7 @@ This last step of the hands-on is more of an open question for you to explore. W
 
 ***
 
-### Answers to Questions to check youeself
+### Answers to questions to check yourself
 
 <details><summary><b>1. What hadron species dominates the medium? </b></summary>
 <p>
