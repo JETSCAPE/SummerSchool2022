@@ -223,7 +223,7 @@ python ${TRANSPORT_FOLDER}/quick_mul_count.py p,π⁻,K⁺ ${TRANSPORT_FOLDER}/d
 
 **Question 1**: What hadron species dominate the medium? 
 
-Note that the three given species already contain the most abundant stable hadrons, as they are the lightest stable non-strange meson, strange meson, and non-strange baryon.
+Note that the three particle species that we chose to look at already contain the most abundant stable hadrons, as they are the lightest stable non-strange meson, strange meson, and non-strange baryon.
 
 > You can find the answers to the questions below.
 
@@ -243,7 +243,7 @@ We can a have first look at the results, by plotting them as follows:
  python ${TRANSPORT_FOLDER}/plot_pt.py results_with_rescatt ${TRANSPORT_FOLDER}/dummy_config.yaml
 ```
 
-You will find a `pt_spectra.pdf` and a `pt_avg.pdf` plot in the build directory of JETSCAPE. Open them and have a look.
+You will find a `pt_spectra.pdf` and a `pt_avg.pdf` plot in the `build` directory of JETSCAPE. Open them and have a look.
 
 **Question 2**: Can you deduce, based on looking at the spectra, how the mean transverse mass has to be ordered for the different species? For example, which species has to have the largest mean pT?
 
