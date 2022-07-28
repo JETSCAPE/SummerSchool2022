@@ -7,7 +7,7 @@
 
 It is strongly advised that you follow the instructions of section 1) before the hands-on session itself, as discussed also at the end of the transport lecture. This is because these instructions take a considerable time to compile and run.
 
-> NOTE: We noticed that the calculations take a considerably longer time for new Macs with the Apple M1 chip. We suspect this is caused by some combination of settings for the JETSCAPE Docker container and the fact that the M1 architecture is unusual, but we haven't had enough time to test this hypothesis and provide a solution. The Apple M1 chip is very fast and ordinarily, SMASH runs very fast on new Macs. If you work on a machine with the M1 chip, please try to run all calculations before the hands-on session. Don't hesitate to ask for help if needed! 
+> NOTE: We noticed that the calculations take a considerably longer time for new Macs with the Apple M1 chip. We suspect this is caused by some combination of settings for the JETSCAPE Docker container and the fact that the M1 architecture is unusual, but we haven't had enough time to test this hypothesis and provide a solution. The Apple M1 chip is very fast and ordinarily, SMASH runs very fast on new Macs. If you work on a machine with the M1 chip, please try to run all calculations before the hands-on session. Don't hesitate to ask for help if needed!
 
 If you already have done section 1), you can restart the container for this session by running `docker start -ai JSSMASH` and continue with the hands-on.
 
@@ -117,12 +117,14 @@ Output:
         Format:          ["Oscar2013", "Binary"]
 ```
 
-Now, you can start a JETSCAPE simulation with SMASH (from the `build` directory). We will run a Au-Au collision at sqrts = 200 GeV and 0-5% centrality. We will simulate one hydro event, and then we will sample discrete particles from the obtained hydro surface and evolve them within the SMASH afterburner; we will repeat the sampling 25 times, so that in the end we will have 25 hydro+afterburner events. All these options (and others) are specified in the `jetscape_user_smash.xml` file, and we start JETSCAPE by executing
+Now, you can start a JETSCAPE simulation with SMASH (from the `build` directory). With the following:
 
 ```
 cd ~/JETSCAPE/build
 ./runJetscape ../../SummerSchool2022/Jul28_Transport/jetscape_user_smash.xml
 ```
+
+We will run a Au-Au collision at sqrts = 200 GeV and 0-5% centrality. We will simulate one hydro event, and then we will sample discrete particles from the obtained hydro surface and evolve them within the SMASH afterburner; we will repeat the sampling 25 times, so that in the end we will have 25 hydro+afterburner events. All these options (and others) are specified in the given `jetscape_user_smash.xml` file.
 
 While the calculation is running (it will take around 20 minutes), we have a look at the input, configuration, and output of SMASH.
 
@@ -239,7 +241,7 @@ Note that the three particle species that we chose to look at already contain th
 ```sh
 python ${TRANSPORT_FOLDER}/anl_pt.py p,π⁻,K⁺ smash_output/particles_binary.bin results_with_rescattering ${TRANSPORT_FOLDER}/dummy_config.yaml
 ```
-This script outputs the average pT value of the given particle species to the command line (the numbers are the integer pdg values of the particles). You should also find analysis output files for the pT of each species in the directory `results_with_rescattering` within `~/JETSCAPE/build`. Those files have the average pT value and a pT histogram in it.
+This script outputs the average pT value of the given particle species to the command line (`p,π⁻,K⁺`). After the run you should find analysis output files for the pT of each species in the directory `results_with_rescattering` within `~/JETSCAPE/build`. Those files have the average pT value and a pT histogram in it.
 
 We can a have first look at the results, by plotting them as follows:
 
@@ -259,11 +261,11 @@ As we want to study the effect of the afterburner, we need a calculation to comp
 For this, we first save our previous SMASH output for later, as otherwise it will get overwritten by the new calculation (this is in the `JETSCAPE/build` folder):
 
 ```
-mkdir smash_output_with_rescatt
-cp smash_output/* smash_output_with_rescatt/
+mkdir smash_output_with_rescattering
+cp smash_output/* smash_output_with_rescattering/
 ```
 
-To disable all hadron collisions and only allow decays within SMASH, we change the used config file `~/SummerSchool2022/Jul28_Transport/smash_config.yaml`. You can search for the right option yourself in the [SMASH user guide](http://theory.gsi.de/~smash/userguide/current/). Hint: Click on the arrow to expand Input, then Configuration, and then click on Collision Term. Look for the relevant option there.
+To disable all hadron collisions and only allow decays within SMASH, we change the used config file `~/SummerSchool2022/Jul28_Transport/smash_config.yaml`. You can search for the right option yourself in the [SMASH user guide](http://theory.gsi.de/~smash/userguide/current/). Hint: Click on the arrow to expand Input, then Configuration, and then click on Collision Term. Look for the relevant option there. If you are lazy (which is also fine :wink:), you can also just click below for the solution.
 
 <details><summary><b> Click for Solution </b></summary>
 <p>
@@ -277,7 +279,7 @@ This disables all interactions except decays.
 </p>
 </details>
 
-After making the appropriate changes in the config file, run SMASH again by executing
+After making the appropriate changes in the config file, run JETSCAPE with SMASH again by executing
 
 ```sh
 ./runJetscape ../../SummerSchool2022/Jul28_Transport/jetscape_user_smash.xml
@@ -309,17 +311,17 @@ First, look at the pT spectra plot.
 
 #### Investigate the scattering of protons
 
-To see how the transverse momentum of protons is modified in the late rescattering stage, we can look at the microscopic scattering history of protons in this phase.
+To see how the transverse momentum of protons is modified in the late rescattering stage, we can make use that transport approaches evolve the system microscopically. We can look at the microscopic scattering history of protons for this whole phase.
 
 To do that, we can analyze the collision output of the first calculation we ran (the one with enabled rescattering). As a starting point, you can run the script `anl_proton_reactions.py` as shown below, which will print out all proton reaction partners in the different events as well as the number of total proton reactions.
 
 ```sh
-python ${TRANSPORT_FOLDER}/anl_proton_reactions.py smash_output_with_rescatt/collisions_binary.bin
+python ${TRANSPORT_FOLDER}/anl_proton_reactions.py smash_output_with_rescattering/collisions_binary.bin
 ```
 
 The numbers printed out are pdg numbers, which you can translate using the `particles.txt` file in the `~/SummerSchool2022/Jul28_Transport` directory.
 
-Simply printing out the scattering partner pdgs is surely not very useful. Therefore, as the last part of this hands-on, it is your turn to investigate the scatterings of the protons a bit more. Thin: how you could investigate the proton scatterings to learn more about what influences them, and in what way?
+Simply printing out the scattering partner pdgs is surely not very useful. Therefore, as the last part of this hands-on, it is your turn to investigate the scatterings of the protons a bit more. Think: How you could investigate the proton scatterings to learn more about what influences them, and in what way?
 
 For this, take a look at the script and modify it according to your idea. Hint: Some properties of the scattering are already extracted but not yet used in the script. For example, you could count how often the proton scatters with a certain particle species, what type of scatterings occur most often, or what the outgoing products of the scatterings are.
 
