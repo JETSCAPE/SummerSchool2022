@@ -133,3 +133,9 @@ dmypy.json
 
 # By days
 Aug03_BulkBayes/DataFiles
+Aug03_BulkBayes/Results
+JETSCAPE/
+STAT/
+.config/
+.jupyter/
+.local/
