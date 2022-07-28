@@ -31,7 +31,7 @@ def analyze_jetscape_events():
 
     # Show Progress Bar
     event_id = 0
-    n_event_max = 100
+    n_event_max = 1000
     pbar = tqdm.tqdm(range(n_event_max))
 
     # Read Events in JETSCAPE output file
