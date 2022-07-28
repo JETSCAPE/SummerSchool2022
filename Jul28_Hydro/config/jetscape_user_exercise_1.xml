@@ -2,9 +2,9 @@
 
 <jetscape>
     <!-- General settings -->
-    <nEvents> 20 </nEvents>
+    <nEvents> 10 </nEvents>
     <setReuseHydro> true </setReuseHydro>
-    <nReuseHydro> 20 </nReuseHydro>
+    <nReuseHydro> 10 </nReuseHydro>
     <JetScapeWriterAscii> on </JetScapeWriterAscii>
 
     <Random>
