@@ -32,8 +32,20 @@ for i,input_dir in enumerate(input_dirs_list):
 
             bins_and_hist = np.loadtxt(input_file, skiprows=6)
             bin_width = bins_and_hist[0][1] - bins_and_hist[0][0]
+
+            scale = 1
+            if pdg == -211:
+                scale = 10
+            if pdg == 321:
+                scale = 5
+
+
             # plot dN/pTdpT
-            plt.plot(bins_and_hist[0],bins_and_hist[1]/(bin_width*bins_and_hist[0]), label=sb.pdg_to_name(pdg, args.config_file)+" "+input_dir.replace("results_",""), linestyle=l_styles[i])
+            if scale > 1:
+                lab = sb.pdg_to_name(pdg, args.config_file)+" "+input_dir.replace("results_","") + " (x"+str(scale)+")"
+            else:
+                lab = sb.pdg_to_name(pdg, args.config_file)+" "+input_dir.replace("results_","")
+            plt.plot(bins_and_hist[0],scale*bins_and_hist[1]/(bin_width*bins_and_hist[0]), label=lab, linestyle=l_styles[i])
 
 plt.xlabel(r'$p_T$ [GeV]')
 plt.ylabel(r'$dN/p_Tdp_T$ [1/GeV]')
@@ -45,6 +57,8 @@ plt.cla()
 
 custom_xticks = []
 custom_xticks_labels = []
+shift = -0.05
+found_wo = False
 for i,input_dir in enumerate(input_dirs_list):
     input_files = glob.glob(input_dir+("/*.txt"))
 
@@ -60,13 +74,20 @@ for i,input_dir in enumerate(input_dirs_list):
             f.readline()
             f.readline()
 
-            plt.errorbar(float(j), avg_pt, yerr=avg_pt_err,fmt='o' ,label=sb.pdg_to_name(pdg, args.config_file)+" "+input_dir.replace("results_",""))
+            if "wo" in input_dir:
+                plt.errorbar(float(j)+shift, avg_pt, yerr=avg_pt_err,marker='d', ms=10, mfc="w" ,label=sb.pdg_to_name(pdg, args.config_file)+" "+input_dir.replace("results_",""))
+                found_wo = True
+            else:
+                plt.errorbar(float(j)+shift, avg_pt, yerr=avg_pt_err,marker='d', ms=10 ,label=sb.pdg_to_name(pdg, args.config_file)+" "+input_dir.replace("results_",""))
+
             custom_xticks.append(float(j))
             custom_xticks_labels.append(sb.pdg_to_name(pdg, args.config_file))
+    shift+=0.1
 
-
+if found_wo: plt.title("Empty symbols without rescattering")
 plt.ylabel(r'$\langle p_T \rangle$ [GeV]')
+plt.xlim(-0.5,2.5)
 plt.xticks(ticks=custom_xticks, labels=custom_xticks_labels)
-plt.legend()
+# plt.legend()
 plt.savefig("pt_avg.pdf")
 plt.cla()
