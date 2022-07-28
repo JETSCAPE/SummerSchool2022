@@ -8,6 +8,8 @@ args = parser.parse_args()
 
 pdg_proton = 2212
 
+scattering_partners_dict = {}
+
 def analyze_file(path):
     print(path)
     event_num = 0
@@ -35,5 +37,20 @@ def analyze_file(path):
 
                     print(pdg_scatt_partner)
 
+                    # If you managed to get until here, you get REWARDed by getting
+                    # the already finished implementation of the counting of the scattering
+                    # partners in a dictonary.
+                    # Print it at the end and compare with the pdg numbers in the particles.txt
+                    # to see the most likely interaction of protons.
+                    if pdg_scatt_partner in scattering_partners_dict:
+                        scattering_partners_dict[pdg_scatt_partner] += 1
+                    else:
+                        scattering_partners_dict[pdg_scatt_partner] = 1
+
 for file_to_analyze in args.files_to_analyze:
     analyze_file(file_to_analyze)
+
+
+# print(scattering_partners_dict)
+# To print out the dictonary of scatterin partner counts ordered,
+# have a look here https://stackoverflow.com/a/2258273
