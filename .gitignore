@@ -132,8 +132,9 @@ dmypy.json
 .DS_Store
 
 # By days
-Aug03_BulkBayes/DataFiles
+Aug03_BulkBayes/DataFiles*
 Aug03_BulkBayes/Results
+Aug03_BulkBayes/*.tar.gz
 JETSCAPE/
 STAT/
 .config/
