@@ -62,7 +62,7 @@ docker run -it -v ~/jetscape-docker:/home/jetscape-user --name JSSMASH jetscape/
 On Windows, make sure to replace `~/jetscape-docker` with the full path. On Linux, in order to have the correct write permission to e.g. create directories you have to include the command line option `--user $(id -u):$(id -g)`, so the full command is
 
 ```
-docker run -it -v ~/jetscape-docker:/home/jetscape-user --user $(id -u):$(id -g)` --name JSSMASH jetscape/base:stable
+docker run -it -v ~/jetscape-docker:/home/jetscape-user --user $(id -u):$(id -g) --name JSSMASH jetscape/base:stable
 ```
 
 #### Downloading SMASH
