@@ -1,0 +1,30 @@
+name: QGP_Bayes
+channels:
+- conda-forge
+dependencies:
+- python=3.7
+- nb_conda_kernels
+- numpy
+- scipy
+- matplotlib
+- pandas
+- seaborn=0.11.1
+- jupyter
+- ipywidgets
+- nbdime
+- emcee
+- corner
+- mkl-service
+- jupyter_nbextensions_configurator
+- scikit-learn
+- scikit-image
+- rise
+- dill
+- PyYAML
+- pip
+- pip:
+  - gpy
+  - gpyopt
+  - pymultinest
+  - pymc3
+  - arviz
