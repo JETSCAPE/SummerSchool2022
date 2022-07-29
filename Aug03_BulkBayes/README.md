@@ -1,7 +1,8 @@
-# QGP_Bayes
-### Bayesian parameter estimation code for Relativistic Heavy Ion Collisions
+# Bayesian parameter estimation code for Relativistic Heavy Ion Collisions
 
-This is an example modified from JETSCAPE Summer School 2021. It provides pregenerated bulk observables (both design and validation) used in the JETSCAPE publications [PRL126(2021)242301](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.126.242301) and [PRC103(2021)054904](https://journals.aps.org/prc/abstract/10.1103/PhysRevC.103.054904) 
+This exercise is modified from JETSCAPE Summer School 2021. It provides pre-generated bulk observables (both design and validation) used in the JETSCAPE publications [PRL126(2021)242301](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.126.242301) and [PRC103(2021)054904](https://journals.aps.org/prc/abstract/10.1103/PhysRevC.103.054904). We will use these data to go over a full-scale Bayesian analysis and obtain the posterior distribution of shear and bulk viscosity by calibrating JS simulations to bulk observables in Pb-Pb collisions at 2.76 TeV. 
+
+We have provided pre-generated data for the time-consuming parts (MCMC, computation of design observables, etc). We will emphasize 1) the importance of prior distribution 2) using emulator and PCA to assist the complex model analysis 3) validation of the workflow 4) the understanding of the posterior in terms of information gain.
 
 ### For sessions on Aug 03, 2022
 
