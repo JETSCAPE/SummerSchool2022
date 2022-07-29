@@ -21,14 +21,14 @@ pip3 install Gpy
 ```
 
 3. Since the materials is quite dense, please makesure before the hands-on session that all modules and essential data files can be loaded properly.
-To do so, run the jupyter notebook and open the notebook 
+To do so, run the jupyter notebook from the jetscape docker as instructed in the main README, and then open this notebook 
 
 ```bash
 Bayesian Parameter Estimation for Relativistic Heavy Ion Physics.ipynb
 ```
 
-Try if you can run through the first few blocks which loads all necessary packages and the pregenerated emulator files. Please post your questions on slack if you find problems.
+Try if you can run through the first few blocks which loads all necessary packages and the pregenerated emulator files. Please post on slack if you encounter any problems.
 
-4. You may pull this weekend, but we will do another pull right before Aug03 just in case there are updates (without changing any dependencies).
+4. You are encouraged to do a first pull this weekend to test the dependencies. We will do another pull right before Aug03 just in case there are updates (without changing any dependencies).
 
 
