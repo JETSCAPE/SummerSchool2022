@@ -1,16 +1,34 @@
 # QGP_Bayes
 ### Bayesian parameter estimation code for Relativistic Heavy Ion Collisions
 
-1. Clone the repository inside the JETSCAPE docker container.
->git clone -b JS21 https://github.com/danOSU/QGP_Bayes.git
+This is an example modified from JETSCAPE Summer School 2021. It provides pregenerated bulk observables (both design and validation) used in the JETSCAPE publications [PRL126(2021)242301](https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.126.242301) and [PRC103(2021)054904](https://journals.aps.org/prc/abstract/10.1103/PhysRevC.103.054904) 
 
-# Posteriors using this *[Jupyter Notebook](https://github.com/danOSU/QGP_Bayes/blob/main/Bayesian%20Parameter%20Estimation%20for%20Relativistic%20Heavy%20Ion%20Physics.ipynb)*
-> Posterior for temperature dependent QGP specefic Shear viscosity.
-![alt text](https://github.com/danOSU/QGP_Bayes/blob/JS21/Results/FigureFiles/shear_pos_ptemcee.png)
+### For sessions on Aug 03, 2022
 
-> Posterior for temperature dependent QGP specefic Bulk viscosity.
-![alt text](https://github.com/danOSU/QGP_Bayes/blob/JS21/Results/FigureFiles/bulk_pos_ptemcee.png)
+1. Once you pull from the summer-schoool repository again, you will see the folder Aug03_BulkBayes. Go to this folder and run
 
-> Posterior for remaining parameters in the model.
-![alt text](https://github.com/danOSU/QGP_Bayes/blob/JS21/Results/FigureFiles/JETSCAPE_bayespartial.png)
+```bash
+./get_data.sh
+```
+
+to download the pregenerated data files.
+
+
+2. Most of the dependencies are already provided by the jetscape docker. For exercises on Aug02, you may need to install Gpy by running the following from the jetscape docker:
+
+```bash
+pip3 install Gpy
+```
+
+3. Since the materials is quite dense, please makesure before the hands-on session that all modules and essential data files can be loaded properly.
+To do so, run the jupyter notebook and open the notebook 
+
+```bash
+Bayesian Parameter Estimation for Relativistic Heavy Ion Physics.ipynb
+```
+
+Try if you can run through the first few blocks which loads all necessary packages and the pregenerated emulator files. Please post your questions on slack if you find problems.
+
+4. You may pull this weekend, but we will do another pull right before Aug03 just in case there are updates (without changing any dependencies).
+
 
