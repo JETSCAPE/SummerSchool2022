@@ -176,6 +176,8 @@ and linux), conda, or else from the pre-compiled binaries.
 Inside docker container, run
 ```bash
 pip3 install corner pyDOE
+pip3 install Gpy
+pip3 install ptemcee
 pip3 install --upgrade emcee==3.0.2
 pip3 install --upgrade seaborn==0.11.0
 ```
