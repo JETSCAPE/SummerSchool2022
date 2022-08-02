@@ -1,7 +1,4 @@
 #!/bin/bash
-fileid="1lBL5OPf4s-Eiepd73gzkIm1FDayiQg_m"
-filename="data.tar.gz"
-html=`curl -c ./cookie -s -L "https://drive.google.com/uc?export=download&id=${fileid}"`
-curl -Lb ./cookie "https://drive.google.com/uc?export=download&`echo ${html}|grep -Po '(confirm=[a-zA-Z0-9\-_]+)'`&id=${fileid}" -o ${filename}
+wget https://indico.cern.ch/event/1162218/contributions/4882269/attachments/2487639/4271584/DataFiles.zip
 
-tar -xzf data.tar.gz
+unzip DataFiles.zip
