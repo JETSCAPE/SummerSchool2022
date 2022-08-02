@@ -1,6 +1,6 @@
 # Bayesian parameter estimation Overview
 
-### For sessions on Aug 02, 2022
+### For sessions on Aug 03, 2022
 
 1. Most of the dependencies are already provided by the jetscape docker. For exercises on Aug. 2 and 3, you may need to install some packages by running the following from the jetscape docker:
 
